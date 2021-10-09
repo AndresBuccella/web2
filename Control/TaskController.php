@@ -42,10 +42,17 @@ class TaskController{
     }
 
     function crearProducto(){
-        print_r($_POST);
+        $tabla = $this->model->traerProductos();
+        foreach ($tabla as $juego) {
+            if (($juego->nombre == $_POST['nombre']) && ($juego->plataforma == $_POST['plataforma'])) {
+                $this->view->showCatalogueLocation();
+                return;
+            }
+        }
         $this->model->agregarProducto($_POST['nombre'], $_POST['precio'], $_POST['descripcion'], $_POST['plataforma'], $_POST['fk_id_genero']);
         $this->view->showCatalogueLocation();
     }
+
 
     function borrarProducto($id){
         $this->model->eliminarProducto($id);
@@ -53,6 +60,13 @@ class TaskController{
     }
 
     function editarProducto($id){
+        $tabla = $this->model->traerProductos();
+        foreach ($tabla as $juego) {
+            if (($juego->nombre == $_POST['nombre']) && ($juego->plataforma == $_POST['plataforma'])) {
+                $this->view->mostrarProductoParticular($id);
+                return;
+            }
+        }
         //$this->model->actualizarProducto('Crash Bandicoot', '60', 'El animal que gira', 'Play', 1);
         $this->model->actualizarProducto($id, $_POST['nombre'], $_POST['precio'], $_POST['descripcion'], $_POST['plataforma'], $_POST['fk_id_genero']);
         
@@ -60,11 +74,25 @@ class TaskController{
     }
 
     function crearGenero(){
+        $tabla = $this->model->traerGeneros();
+        foreach ($tabla as $genero) {
+            if ($genero->genero == $_POST['genero']) {
+                $this->view->showCategoriasLocation();
+                return;
+            }
+        }
         $this->model->agregarGenero($_POST['genero'], $_POST['descripcion_genero']);
-        $this->view->showCatalogueLocation();
+        $this->view->showCategoriasLocation();
     }
 
     function editarGenero(){
+        $tabla = $this->model->traerGeneros();
+        foreach ($tabla as $genero) {
+            if ($genero->genero == $_POST['genero']) {
+                $this->view->showErrorCategoriasLocation();
+                return;
+            }
+        }
         $this->model->actualizarGenero($_POST['genero'], $_POST['descripcion_genero'], $_POST['id_genero']);
         $this->view->showCategoriasLocation();
     }

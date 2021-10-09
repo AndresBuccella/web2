@@ -64,21 +64,18 @@ class TaskView{
     }
 
     function showHomeLocation(){
-        
-        //REDIRECCIONA LA PAGINA UNA VEZ QUE LO CREA
-
         header("Location: ". BASE_URL. "home");
     }
 
     function mostrarProductoParticular($id){
-        
-        //REDIRECCIONA LA PAGINA UNA VEZ QUE LO CREA
-
-        header("Location: ". BASE_URL. "juegoEspecifico/$id");
+        header("Location: ". BASE_URL. "juegoEspecifico/".$id);
     }
 
     function showCategoriasLocation(){
         header("Location: ". BASE_URL. "categorias");
 
+    }
+    function showErrorCategoriasLocation(){
+        header("Location: ". BASE_URL. "categorias");
     }
 }
