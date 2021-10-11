@@ -1,4 +1,5 @@
 {include file="header.tpl"}
+{include file="menu.tpl"}
 
 <ul>
     {foreach from=$categorias item=$categoria}

@@ -1,4 +1,5 @@
 {include file="header.tpl"}
+{include file="menu.tpl"}
 
 <h2>Catalogo</h2>
 <table>

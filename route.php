@@ -1,6 +1,7 @@
 <?php
 
 require_once('Control/TaskController.php');
+require_once('Control/LoginController.php');
 
 define('BASE_URL', '//'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']).'/');
 
@@ -13,14 +14,25 @@ if (!empty($_GET['action'])){
 
 $params = explode('/', $action);
 $taskController = new TaskController();
+$userController = new UserController();
 
 switch ($params[0]){
+    case 'singUp':
+        $userController->singUp();
+        break;
+    case 'loginUser':
+        $userController->login();
+        break;
+    case 'verify':
+        $userController->verify();
+        break;
     //HOME
     case 'home':
         $taskController->showHome();
         break;
     //CATALOGO
     case 'juegoEspecifico':
+        //VER SI PUEDO IMPLEMENTAR EL $VARIABLE = null/''
         if(is_numeric($params[1])){
             $taskController->mostrarProducto($params[1]);
         }else{
