@@ -2,6 +2,7 @@
 
 require_once('Control/TaskController.php');
 require_once('Control/LoginController.php');
+require_once('Control/SingUpController.php');
 
 define('BASE_URL', '//'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']).'/');
 
@@ -14,17 +15,22 @@ if (!empty($_GET['action'])){
 
 $params = explode('/', $action);
 $taskController = new TaskController();
-$userController = new UserController();
+$LoginController = new LoginController();
+$SingUpController = new SingUpController();
+
 
 switch ($params[0]){
     case 'singUp':
-        $userController->singUp();
+        $SingUpController->singUp();
+        break;
+    case 'verifySingup':
+        $SingUpController->verifySingUp();
         break;
     case 'loginUser':
-        $userController->login();
+        $LoginController->login();
         break;
-    case 'verify':
-        $userController->verify();
+    case 'verifyLogin':
+        $LoginController->verifyLogin();
         break;
     //HOME
     case 'home':

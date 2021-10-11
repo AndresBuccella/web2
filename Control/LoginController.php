@@ -3,7 +3,7 @@
 require_once('Model/UserModel.php');
 require_once('View/LoginView.php');
 
-class UserController{
+class LoginController{
     
     private $model;
     private $view;
@@ -21,24 +21,26 @@ class UserController{
         $this->view->showLogin();
     }
 
-    function verify(){
+    function verifyLogin(){
         if ((!empty($_POST['mail']) && !empty($_POST['clave'])) 
         || (!empty($_POST['usuario']) && (!empty($_POST['clave'])))) {
-            $user = $_POST['usuario'];
-            $password = $_POST['clave'];
+            $usuario = $_POST['usuario'];
+            $clave = $_POST['clave'];
             $mail = $_POST['mail'];
 
-            $user = $this->model->getUser($user, $mail);
+            $user = $this->model->getUser($mail);
 
-            if ($user && password_verify($password, $user->password)){
-
-                session_start();
+            if ($user && password_verify($clave, $user->clave)){
+    
+            session_start();
                 $_SESSION['mail'] = $user->mail;
-
-                $this->view->showHome();
+    
+                $this->view->showHome('Bienvenido: ', $usuario);
             }else{
                 $this->view->showLogin('Acceso denegado');
             }
+        }else{
+            $this->view->showLogin('Acceso denegado');
         }
         
     }

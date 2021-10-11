@@ -82,7 +82,6 @@ class TaskModel{
     }
 
     function agregarGenero($nombre, $descripcion){
-        print_r($_POST);
         $sentencia = $this->db->prepare("INSERT INTO generos(genero, descripcion_genero) VALUES(?,?)");
         $sentencia->execute(array($nombre, $descripcion));
     }
