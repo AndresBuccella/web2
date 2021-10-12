@@ -15,22 +15,25 @@ if (!empty($_GET['action'])){
 
 $params = explode('/', $action);
 $taskController = new TaskController();
-$LoginController = new LoginController();
-$SingUpController = new SingUpController();
+$loginController = new LoginController();
+$singUpController = new SingUpController();
 
 
 switch ($params[0]){
+    case 'logout':
+        $loginController->logout();
+        break;
     case 'singUp':
-        $SingUpController->singUp();
+        $singUpController->singUp();
         break;
     case 'verifySingup':
-        $SingUpController->verifySingUp();
+        $singUpController->verifySingUp();
         break;
     case 'loginUser':
-        $LoginController->login();
+        $loginController->login();
         break;
     case 'verifyLogin':
-        $LoginController->verifyLogin();
+        $loginController->verifyLogin();
         break;
     //HOME
     case 'home':
@@ -75,4 +78,3 @@ switch ($params[0]){
         break;
                                             
 }
-?>

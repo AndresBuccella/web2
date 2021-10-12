@@ -3,4 +3,5 @@
 
 <h3>{$alert}{$user}</h3>
 
+
 {include file="footer.tpl"}

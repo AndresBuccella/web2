@@ -2,15 +2,18 @@
 
 require_once('Model/UserModel.php');
 require_once('View/LoginView.php');
+require_once('Helpers/AuthHelper.php');
 
 class LoginController{
     
     private $model;
     private $view;
+    private $authHelper;
 
     function __construct(){
         $this->model = new UserModel();
         $this->view = new LoginView();
+        $this->authHelper = new AuthHelper();
     }
     
     function singUp(){
@@ -21,21 +24,23 @@ class LoginController{
         $this->view->showLogin();
     }
 
+    function logout(){
+        $this->authHelper->logout();
+        $this->view->showLogin('Te deslogueaste');
+    }
+
     function verifyLogin(){
-        if ((!empty($_POST['mail']) && !empty($_POST['clave'])) 
-        || (!empty($_POST['usuario']) && (!empty($_POST['clave'])))) {
+        if ((!empty($_POST['usuario']) && (!empty($_POST['clave'])))) {
             $usuario = $_POST['usuario'];
             $clave = $_POST['clave'];
-            $mail = $_POST['mail'];
 
-            $user = $this->model->getUser($mail);
+            $user = $this->model->getUser($usuario);
 
             if ($user && password_verify($clave, $user->clave)){
-    
-            session_start();
-                $_SESSION['mail'] = $user->mail;
-    
-                $this->view->showHome('Bienvenido: ', $usuario);
+                session_start();
+                $_SESSION['usuario'] = $user->usuario;
+                $sessiON = true;
+                $this->view->showHome($sessiON, 'Bienvenido: ', $usuario);
             }else{
                 $this->view->showLogin('Acceso denegado');
             }

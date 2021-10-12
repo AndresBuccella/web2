@@ -12,8 +12,16 @@ class TaskView{
         $this->moneda = '$';
     }
 
-    function mostrarProductos($productos, $generos){
+    function showHome($sessiON=false, $alert='', $user=''){
+        $this->smarty->assign('sessiON', $sessiON);
+        $this->smarty->assign('alert', $alert);
+        $this->smarty->assign('user', $user);
+        $this->smarty->display('./templates/home.tpl');
+    }
+
+    function mostrarProductos($sessiON, $productos, $generos){
         //EN LA VARIABLE PRODUCTOS, ASIGNA $PRODUCTOS
+        $this->smarty->assign('sessiON', $sessiON);
         $this->smarty->assign('productos', $productos);
         $this->smarty->assign('generos', $generos);
         $this->smarty->assign('moneda', $this->moneda);
@@ -21,19 +29,22 @@ class TaskView{
         //LA MAS LINDA
     }
 
-    function mostrarProducto($producto, $generos){
+    function mostrarProducto($sessiON, $producto, $generos){
+        $this->smarty->assign('sessiON', $sessiON);
         $this->smarty->assign('producto', $producto);
         $this->smarty->assign('generos', $generos);
         $this->smarty->assign('moneda', $this->moneda);
         $this->smarty->display('./templates/productoEspecifico.tpl');
     }
 
-    function mostrarProductoPorGenero($tabla){
+    function mostrarProductoPorGenero($sessiON, $tabla){
+        $this->smarty->assign('sessiON', $sessiON);
         $this->smarty->assign('juegos', $tabla);
         $this->smarty->display('./templates/listaJuegos.tpl');
     }
 
-    function mostrarCategorias($generos){
+    function mostrarCategorias($sessiON, $generos){
+        $this->smarty->assign('sessiON', $sessiON);
         $this->smarty->assign('categorias', $generos);
         $this->smarty->display('./templates/categorias.tpl');
     }
@@ -77,5 +88,9 @@ class TaskView{
     }
     function showErrorCategoriasLocation(){
         header("Location: ". BASE_URL. "categorias");
+    }
+
+    function showLoginLocation(){
+        header("Location: ". BASE_URL. "loginUser");
     }
 }
