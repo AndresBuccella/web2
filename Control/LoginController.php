@@ -15,10 +15,6 @@ class LoginController{
         $this->view = new LoginView();
         $this->authHelper = new AuthHelper();
     }
-    
-    function singUp(){
-        $user = $this->model->getUser($_POST['mail']);
-    }
 
     function login(){
         $this->view->showLogin();

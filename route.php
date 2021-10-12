@@ -1,6 +1,8 @@
 <?php
 
-require_once('Control/TaskController.php');
+require_once('Control/ContentController.php');
+require_once('Control/ProductController.php');
+require_once('Control/GenreController.php');
 require_once('Control/LoginController.php');
 require_once('Control/SingUpController.php');
 
@@ -14,64 +16,67 @@ if (!empty($_GET['action'])){
 
 
 $params = explode('/', $action);
-$taskController = new TaskController();
+$contentController = new ContentController();
+$productController = new ProductController();
+$genreController = new GenreController();
 $loginController = new LoginController();
-$singUpController = new SingUpController();
+
+$singupController = new SingUpController();
 
 
 switch ($params[0]){
     case 'logout':
-        $loginController->logout();
+        $userController->logout();
         break;
     case 'singUp':
-        $singUpController->singUp();
+        $singupController->singUp();
         break;
     case 'verifySingup':
-        $singUpController->verifySingUp();
+        $singupController->verifySingUp();
         break;
     case 'loginUser':
-        $loginController->login();
+        $userController->login();
         break;
     case 'verifyLogin':
-        $loginController->verifyLogin();
+        $userController->verifyLogin();
         break;
     //HOME
     case 'home':
-        $taskController->showHome();
+        $contentController->showHome();
         break;
     //CATALOGO
     case 'juegoEspecifico':
         //VER SI PUEDO IMPLEMENTAR EL $VARIABLE = null/''
         if(is_numeric($params[1])){
-            $taskController->mostrarProducto($params[1]);
+            $productController->mostrarProducto($params[1]);
         }else{
-            $taskController->editarProducto($params[2]);
+            $productController->editarProducto($params[2]);
         }
         break;
     case 'categorias':
         if (empty($params[1])) {
-            $taskController->mostrarCategorias();
+            $genreController->mostrarCategorias();
         }else{
-            $taskController->mostrarProductoPorGenero($params[1]);
+            $productController->mostrarProductoPorGenero($params[1]);
         }
         break;
     case 'catalogue':
-        $taskController->showCatalogue();
+        $contentController->showCatalogue();
         break;
-    case 'crearProducto':
-        $taskController->crearProducto();
+    case 'productController':
+        $productController->crearProducto();
         break;
-    case 'borrarProducto':
-        $taskController->borrarProducto($params[1]);
+    case 'productController':
+        $productController->borrarProducto($params[1]);
         break;
     case 'crearGenero':
-        $taskController->crearGenero();
+        $genreController->crearGenero();
         break;
     case 'borrarGenero':
-        $taskController->borrarGenero($params[1]);
+        $genreController->borrarGenero($params[1]);
         break;
     case 'editarGenero':
-        $taskController->editarGenero();
+        $genreController->editarGenero();
         break;
     default: 
         echo('404 Page not found'); 
