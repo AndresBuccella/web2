@@ -7,14 +7,8 @@
     <input type="text" name="usuario" id="" placeholder="User" required>
     <input type="password" name="clave" id="" placeholder="Password" required>
 
-    <input type="submit" value="Enter">
+    <input type="submit" class="btn-primary" value="Enter">
 
 </form>
-
-
-
-
-
-
 
 {include file='templates/footer.tpl'}

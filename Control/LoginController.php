@@ -27,16 +27,16 @@ class LoginController{
 
     function verifyLogin(){
         if ((!empty($_POST['usuario']) && (!empty($_POST['clave'])))) {
-            $usuario = $_POST['usuario'];
-            $clave = $_POST['clave'];
+            $newUser = $_POST['usuario'];
+            $password = $_POST['clave'];
 
-            $user = $this->userModel->getUser($usuario);
+            $user = $this->userModel->getUser($newUser);
 
-            if ($user && password_verify($clave, $user->clave)){
+            if ($user && password_verify($password, $user->clave)){
                 session_start();
                 $_SESSION['usuario'] = $user->usuario;
                 $sessiON = true;
-                $this->view->showHome($sessiON, 'Bienvenido: ', $usuario);
+                $this->view->showHome($sessiON, 'Bienvenido: ', $newUser);
             }else{
                 $this->view->showLogin('Acceso denegado');
             }

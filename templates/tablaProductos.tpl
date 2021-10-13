@@ -30,21 +30,21 @@
         {/foreach}
     </table>
     {if $sessiON}
-        <h3>Agregar un juego</h3>
     
-        <form action="crearProducto" method="POST">
-            <input type="text" name="nombre" id="nombre" placeholder="Nombre del juego">
-            <input type="number" name="precio" id="precio" placeholder="Precio">
-            <textarea type="text" name="descripcion" id="descripcion" placeholder="Descripcion del producto"></textarea>
-            <input type="text" name="plataforma" id="plataforma" placeholder="Plataforma">
-            <select name="fk_id_genero" id="fk_id_genero">
+    <form action="crearProducto" method="POST">
+            <h3>Agregar un juego</h3>
+            <input type="text" name="nombre" placeholder="Nombre del juego">
+            <input type="number" name="precio" placeholder="Precio">
+            <textarea type="text" name="descripcion" placeholder="Descripcion del producto"></textarea>
+            <input type="text" name="plataforma" placeholder="Plataforma">
+            <select name="fk_id_genero">
                 {foreach from=$generos item=papa name="fk_id_genero"}
                     <option name="fk_id_genero" value="{$papa->id_genero}">{$papa->genero}</option>
                 {/foreach}
             
             </select>
     
-            <input type="submit" class="btn-guardar-producto btn-primary" value="Guardar">
+            <input type="submit" class="btn-primary" value="Guardar">
     
         </form>
     {/if}

@@ -96,9 +96,26 @@ td{
     padding: 20px;
 }
 
+/*forms*/
+form{
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    margin-left: 5%;
+}
+input{
+    margin: 5px 0px;
+}
+/*Lista juegos*/
+
+.listaJuegos{
+    margin-left: 5%;
+}
 /**/
-/**/
-/**/
+
+.contenedorProductoEspecifico{
+    margin: 5%;
+}
 /**/
 /**/
 /**/

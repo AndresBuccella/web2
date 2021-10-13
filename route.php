@@ -49,35 +49,35 @@ switch ($params[0]){
     case 'juegoEspecifico':
         //VER SI PUEDO IMPLEMENTAR EL $VARIABLE = null/''
         if(is_numeric($params[1])){
-            $productController->mostrarProducto($params[1]);
+            $productController->showProduct($params[1]);
         }else{
-            $productController->editarProducto($params[2]);
+            $productController->editProduct($params[2]);
         }
         break;
     case 'categorias':
         if (empty($params[1])) {
-            $genreController->mostrarCategorias();
+            $genreController->showCategories();
         }else{
-            $productController->mostrarProductoPorGenero($params[1]);
+            $productController->showProductByGenre($params[1]);
         }
         break;
     case 'catalogue':
         $contentController->showCatalogue();
         break;
     case 'crearProducto':
-        $productController->crearProducto();
+        $productController->createProduct();
         break;
     case 'borrarProducto':
-        $productController->borrarProducto($params[1]);
+        $productController->deleteProduct($params[1]);
         break;
     case 'crearGenero':
-        $genreController->crearGenero();
+        $genreController->createGenre();
         break;
     case 'borrarGenero':
-        $genreController->borrarGenero($params[1]);
+        $genreController->deteleGenre($params[1]);
         break;
     case 'editarGenero':
-        $genreController->editarGenero();
+        $genreController->editGenre();
         break;
     default: 
         echo('404 Page not found'); 

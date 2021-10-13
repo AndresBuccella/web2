@@ -17,10 +17,10 @@ class LoginView{
         $this->smarty->display('./templates/login.tpl');
     }
 
-    function showHome($sessiON = false, $alert='', $usuario=''){
+    function showHome($sessiON = false, $alert='', $user=''){
         $this->smarty->assign('sessiON', $sessiON);
         $this->smarty->assign('alert', $alert);
-        $this->smarty->assign('user', $usuario);
+        $this->smarty->assign('user', $user);
         $this->smarty->display('./templates/home.tpl');
     }
 

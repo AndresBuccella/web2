@@ -5,11 +5,11 @@ require_once('./libs/smarty/libs/Smarty.class.php');
 class ProductView{
 
     private $smarty;
-    private $moneda;
+    private $currency;
 
     function __construct(){
         $this->smarty = new Smarty();
-        $this->moneda = '$';
+        $this->currency = '$';
     }
 
     function showHome($sessiON=false, $alert='', $user=''){
@@ -19,33 +19,34 @@ class ProductView{
         $this->smarty->display('./templates/home.tpl');
     }
 
-    function mostrarProductos($sessiON, $productos, $generos){
+    function showProducts($sessiON, $product, $genres){
         //EN LA VARIABLE PRODUCTOS, ASIGNA $PRODUCTOS
         $this->smarty->assign('sessiON', $sessiON);
-        $this->smarty->assign('productos', $productos);
-        $this->smarty->assign('generos', $generos);
-        $this->smarty->assign('moneda', $this->moneda);
+        $this->smarty->assign('productos', $product);
+        $this->smarty->assign('generos', $genres);
+        $this->smarty->assign('moneda', $this->currency);
         $this->smarty->display('./templates/tablaProductos.tpl');
         //LA MAS LINDA
     }
 
-    function mostrarProducto($sessiON, $producto, $generos){
+    function showProduct($sessiON, $product, $genres){
         $this->smarty->assign('sessiON', $sessiON);
-        $this->smarty->assign('producto', $producto);
-        $this->smarty->assign('generos', $generos);
-        $this->smarty->assign('moneda', $this->moneda);
+        $this->smarty->assign('producto', $product);
+        $this->smarty->assign('generos', $genres);
+        $this->smarty->assign('moneda', $this->currency);
         $this->smarty->display('./templates/productoEspecifico.tpl');
     }
 
-    function mostrarProductoPorGenero($sessiON, $tabla){
+    function showProductByGenre($sessiON, $table){
         $this->smarty->assign('sessiON', $sessiON);
-        $this->smarty->assign('juegos', $tabla);
+        $this->smarty->assign('juegos', $table);
         $this->smarty->display('./templates/listaJuegos.tpl');
     }
 
-    function mostrarCategorias($sessiON, $generos){
+    function showCategories($sessiON, $genres, $error = ''){
         $this->smarty->assign('sessiON', $sessiON);
-        $this->smarty->assign('categorias', $generos);
+        $this->smarty->assign('categorias', $genres);
+        $this->smarty->assign('error', $error);
         $this->smarty->display('./templates/categorias.tpl');
     }
 
@@ -60,16 +61,13 @@ class ProductView{
         header("Location: ". BASE_URL. "home");
     }
 
-    function mostrarProductoParticular($id){
+    function showSpecifiedProduct($id){
         header("Location: ". BASE_URL. "juegoEspecifico/".$id);
     }
 
-    function showCategoriasLocation(){
+    function showCategoriesLocation(){
         header("Location: ". BASE_URL. "categorias");
 
-    }
-    function showErrorCategoriasLocation(){
-        header("Location: ". BASE_URL. "categorias");
     }
 
     function showLoginLocation(){

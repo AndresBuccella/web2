@@ -2,11 +2,11 @@
 <h4>{$error}</h4>
 <h2>{$singup}</h2>
 <form action="verifySingup" method="POST">
-    <input type="text" name="usuario" id="" placeholder="User">
-    <input type="mail" name="mail" id="" placeholder="Mail">
-    <input type="password" name="clave" id="" placeholder="Password">
+    <input type="text" name="usuario" placeholder="User">
+    <input type="mail" name="mail" placeholder="Mail">
+    <input type="password" name="clave" placeholder="Password">
 
-    <input type="submit" value="Enter">
+    <input type="submit" class="btn-primary" value="Enter">
 
 </form>
 

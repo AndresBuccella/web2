@@ -9,43 +9,43 @@ class ProductController extends ContentController{
     }
 
 
-    function mostrarProducto($id){
+    function showProduct($id){
         $sessiON = $this->authHelper->checkLoggedIn();
-        $producto = $this->productModel->traerProducto($id);
-        $generos = $this->genreModel->traerGeneros();
-        $this->view->mostrarProducto($sessiON, $producto, $generos);
+        $product = $this->productModel->getProduct($id);
+        $genres = $this->genreModel->getGenres();
+        $this->productView->showProduct($sessiON, $product, $genres);
     }
 
-    function mostrarProductoPorGenero($genero){
+    function showProductByGenre($genre){
         $sessiON = $this->authHelper->checkLoggedIn();
-        $tabla = $this->genreModel->tablasUnidasFiltradasPorGenero($genero);
-        $this->view->mostrarProductoPorGenero($sessiON, $tabla);
+        $table = $this->genreModel->tablesFilteredByGenre($genre);
+        $this->productView->showProductByGenre($sessiON, $table);
     }
 
-    function crearProducto(){
+    function createProduct(){
         $this->authHelper->checkPermission();
-        $tabla = $this->productModel->traerProductos();
-        foreach ($tabla as $juego) {
-            if (($juego->nombre == $_POST['nombre']) && ($juego->plataforma == $_POST['plataforma'])) {
-                $this->view->showCatalogueLocation();
+        $table = $this->productModel->getProducts();
+        foreach ($table as $game) {
+            if (($game->nombre == $_POST['nombre']) && ($game->plataforma == $_POST['plataforma'])) {
+                $this->productView->showCatalogueLocation();
                 return;
             }
         }
-        $this->productModel->agregarProducto($_POST['nombre'], $_POST['precio'], $_POST['descripcion'], $_POST['plataforma'], $_POST['fk_id_genero']);
-        $this->view->showCatalogueLocation();
+        $this->productModel->addProduct($_POST['nombre'], $_POST['precio'], $_POST['descripcion'], $_POST['plataforma'], $_POST['fk_id_genero']);
+        $this->productView->showCatalogueLocation();
     }
 
 
-    function borrarProducto($id){
+    function deleteProduct($id){
         $this->authHelper->checkPermission();
-        $this->productModel->eliminarProducto($id);
-        $this->view->showCatalogueLocation();
+        $this->productModel->deleteProduct($id);
+        $this->productView->showCatalogueLocation();
     }
 
-    function editarProducto($id){
+    function editProduct($id){
         $this->authHelper->checkPermission();
-        $this->productModel->actualizarProducto($id, $_POST['nombre'], $_POST['precio'], $_POST['descripcion'], $_POST['plataforma'], $_POST['fk_id_genero']);
-        $this->view->mostrarProductoParticular($id);
+        $this->productModel->updateProduct($id, $_POST['nombre'], $_POST['precio'], $_POST['descripcion'], $_POST['plataforma'], $_POST['fk_id_genero']);
+        $this->productView->showSpecifiedProduct($id);
     }
 
 }

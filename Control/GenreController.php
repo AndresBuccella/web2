@@ -8,43 +8,45 @@ class GenreController extends ContentController{
         parent::__construct();
     }
     
-    function mostrarCategorias(){
+    function showCategories(){
         $sessiON = $this->authHelper->checkLoggedIn();
-        $generos = $this->genreModel->traerGeneros();
-        $this->view->mostrarCategorias($sessiON, $generos);
+        $genres = $this->genreModel->getGenres();
+        $this->productView->showCategories($sessiON, $genres);
 
     }
 
-    function crearGenero(){
+    function createGenre(){
         $this->authHelper->checkPermission();
-        $tabla = $this->genreModel->traerGeneros();
-        foreach ($tabla as $genero) {
-            if ($genero->genero == $_POST['genero']) {
-                $this->view->showCategoriasLocation();
+        $sessiON = true;
+        $genres = $this->genreModel->getGenres();
+        foreach ($genres as $genre) {
+            if ($genre->genero == $_POST['genero']) {
+                $this->productView->showCategories($sessiON, $genres, 'Este genero ya existe');
                 return;
             }
         }
-        $this->genreModel->agregarGenero($_POST['genero'], $_POST['descripcion_genero']);
-        $this->view->showCategoriasLocation();
+        $this->genreModel->addGenre($_POST['genero'], $_POST['descripcion_genero']);
+        $this->productView->showCategoriesLocation();
     }
 
-    function editarGenero(){
+    function editGenre(){
         $this->authHelper->checkPermission();
-        $tabla = $this->genreModel->traerGeneros();
-        foreach ($tabla as $genero) {
-            if ($genero->genero == $_POST['genero']) {
-                $this->view->showErrorCategoriasLocation();
+        $sessiON = true;
+        $genres = $this->genreModel->getGenres();
+        foreach ($genres as $genre) {
+            if ($genre->genero == $_POST['genero']) {
+                $this->productView->showCategories($sessiON, $genres, 'Este genero ya existe');
                 return;
             }
         }
-        $this->genreModel->actualizarGenero($_POST['genero'], $_POST['descripcion_genero'], $_POST['id_genero']);
-        $this->view->showCategoriasLocation();
+        $this->genreModel->updateGenre($_POST['genero'], $_POST['descripcion_genero'], $_POST['id_genero']);
+        $this->productView->showCategoriesLocation();
     }
 
-    function borrarGenero($id){
+    function deteleGenre($id){
         $this->authHelper->checkPermission();
-        $this->productModel->eliminarProductoFk($id);
-        $this->genreModel->eliminarGenero($id);
-        $this->view->showCategoriasLocation();
+        $this->productModel->deleteProductByFk($id);
+        $this->genreModel->deleteGenre($id);
+        $this->productView->showCategoriesLocation();
     }
 }

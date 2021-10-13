@@ -9,26 +9,26 @@ class ContentController{
 
     protected $productModel;
     protected $genreModel;
-    protected $view;
+    protected $productView;
     protected $authHelper;
 
     function __construct(){
         $this->productModel = new ProductModel();
         $this->genreModel = new GenreModel();
-        $this->view = new ProductView();
+        $this->productView = new ProductView();
         $this->authHelper = new AuthHelper();
     }
     
     function showHome(){
         $sessiON = $this->authHelper->checkLoggedIn();
-        $this->view->showHome($sessiON);
+        $this->productView->showHome($sessiON);
     }
     
     function showCatalogue(){
         $sessiON = $this->authHelper->checkLoggedIn();
-        $tabla = $this->productModel->tablasUnidas();
-        $generos = $this->genreModel->traerGeneros();
-        $this->view->mostrarProductos($sessiON, $tabla, $generos);
+        $table = $this->productModel->joinedTables();
+        $genres = $this->genreModel->getGenres();
+        $this->productView->showProducts($sessiON, $table, $genres);
     }
 
     

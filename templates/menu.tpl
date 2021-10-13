@@ -12,7 +12,7 @@
             <li><a class="itemMenu" href="{BASE_URL}loginUser">Login</a></li>
             <!--<li><a href="{BASE_URL}singUp">Registrarse</a></li>-->
         {else}
-            <li><a class="itemMenu" href={BASE_URL}logout>Salir</a></li>
+            <li><a class="itemMenu" href={BASE_URL}logout>Logout</a></li>
         {/if}
                 
     </ul>
