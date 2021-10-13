@@ -1,0 +1,105 @@
+*{
+    margin: 0px;
+}
+/*compartidos*/
+
+/*menu*/
+.navMenuPpal{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: beige;
+    height: 150px;
+}
+.listaMenuPpal{
+    display: flex;
+    justify-content: space-around;
+    width: 30%;
+}
+
+.listaMenuLogin > li > a{
+    display: inline-block;
+}
+
+.logoPpal{
+    width: 10%;
+}
+
+.itemMenu{
+    color: black;
+    border: black 1.5px solid;
+    border-radius: 4px;
+    text-decoration: none;
+    margin: 3%;
+    padding: 5%;
+}
+li{
+    list-style: none;
+}
+
+
+
+/*footer*/
+
+footer{
+    display: flex;
+    background-color: beige;
+    padding: 10px;
+}
+.more-info{
+    width: 33%;
+}
+.more-info, .social-box, .contact{
+    width: 33%;
+    margin: 0px 0px 20px;
+}
+.icon{
+    width: 40px;
+    margin: 3px 5px;
+}
+.social-box{
+    list-style: none;
+}
+.social-box > nav > div > div{
+    margin-bottom: 15px;
+}
+.contact > div {
+    align-items: center;
+}
+
+
+/*Catalogo*/
+
+.catalogo{
+    background-color: rgb(247, 247, 242);
+    padding: 3%;
+    min-width: 1500px;
+
+}
+thead > tr > td:nth-child(1), thead > tr > td:nth-child(2), 
+thead > tr > td:nth-child(3), thead > tr > td:nth-child(4), 
+thead > tr > td:nth-child(5), thead > tr > td:nth-child(6){
+    background-color: rgba(245, 245, 220, 0.664);
+    font-size: 20px;
+    font-weight: bold;
+} 
+.tdName{
+    background-color: rgba(245, 245, 220, 0.664);
+    font-size: 20px;
+}
+tr{
+    width: 1000px;
+}
+td{
+    font-size: 15px;
+    border: 1px solid black;
+    padding: 20px;
+}
+
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/
+/**/

@@ -4,7 +4,7 @@ require_once('Control/ContentController.php');
 require_once('Control/ProductController.php');
 require_once('Control/GenreController.php');
 require_once('Control/LoginController.php');
-require_once('Control/SingUpController.php');
+//require_once('Control/SingUpController.php');
 
 define('BASE_URL', '//'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']).'/');
 
@@ -21,25 +21,26 @@ $productController = new ProductController();
 $genreController = new GenreController();
 $loginController = new LoginController();
 
-$singupController = new SingUpController();
+//$singupController = new SingUpController();
 
 
 switch ($params[0]){
     case 'logout':
-        $userController->logout();
+        $loginController->logout();
         break;
-    case 'singUp':
+/*    case 'singUp':
         $singupController->singUp();
         break;
     case 'verifySingup':
         $singupController->verifySingUp();
-        break;
+        break;*/
     case 'loginUser':
-        $userController->login();
+        $loginController->login();
         break;
     case 'verifyLogin':
-        $userController->verifyLogin();
+        $loginController->verifyLogin();
         break;
+
     //HOME
     case 'home':
         $contentController->showHome();
@@ -63,10 +64,10 @@ switch ($params[0]){
     case 'catalogue':
         $contentController->showCatalogue();
         break;
-    case 'productController':
+    case 'crearProducto':
         $productController->crearProducto();
         break;
-    case 'productController':
+    case 'borrarProducto':
         $productController->borrarProducto($params[1]);
         break;
     case 'crearGenero':

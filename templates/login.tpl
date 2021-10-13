@@ -1,4 +1,6 @@
 {include file='templates/header.tpl'}
+{include file='templates/menu.tpl'}
+
 <h4>{$okSingup}</h4>
 <h2>{$title}</h2>
 <form action="verifyLogin" method="POST">

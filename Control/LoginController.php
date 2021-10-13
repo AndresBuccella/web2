@@ -6,12 +6,12 @@ require_once('Helpers/AuthHelper.php');
 
 class LoginController{
     
-    private $model;
+    private $userModel;
     private $view;
     private $authHelper;
 
     function __construct(){
-        $this->model = new UserModel();
+        $this->userModel = new UserModel();
         $this->view = new LoginView();
         $this->authHelper = new AuthHelper();
     }
@@ -30,7 +30,7 @@ class LoginController{
             $usuario = $_POST['usuario'];
             $clave = $_POST['clave'];
 
-            $user = $this->model->getUser($usuario);
+            $user = $this->userModel->getUser($usuario);
 
             if ($user && password_verify($clave, $user->clave)){
                 session_start();

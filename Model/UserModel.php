@@ -1,12 +1,11 @@
 <?php
 
-class UserModel{
+require_once 'MainModel.php';
 
-    private $db;
+class UserModel extends MainModel{
 
     function __construct(){
-        //TOMA TODA LA BASE DE DATOS POR LO QUE ES INDISTINTO
-        $this->db = new PDO('mysql:host=localhost;'.'dbname=db_videogames;charset=utf8', 'root', '');
+        parent::__construct();
     }
 
 
