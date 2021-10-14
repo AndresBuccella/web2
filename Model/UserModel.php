@@ -1,11 +1,12 @@
 <?php
 
-require_once 'MainModel.php';
 
-class UserModel extends MainModel{
+class UserModel{
+
+    private $db;
 
     function __construct(){
-        parent::__construct();
+        $this->db = new PDO('mysql:host=localhost;'.'dbname=db_videogames;charset=utf8', 'root', '');
     }
 
 
