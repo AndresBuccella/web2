@@ -5,7 +5,7 @@
     
     <ul>
         {foreach from=$juegos item=$juego}
-            <li><a href="{BASE_URL}juegoEspecifico/{$juego->id_producto}">{$juego->nombre}</a></li>
+            <li><a href="juegoEspecifico/{$juego->id_producto}">{$juego->nombre}</a></li>
             
         {/foreach}
     </ul>
