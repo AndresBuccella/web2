@@ -8,18 +8,13 @@ class GenreModel{
         $this->db = new PDO('mysql:host=localhost;'.'dbname=db_videogames;charset=utf8', 'root', '');
     }
 
-    function tablesFilteredByGenre($genre){
-        $sentency = $this->db->prepare("SELECT p.*, g.* FROM productos p LEFT JOIN generos g ON p.fk_id_genero = g.id_genero WHERE genero=?");
-        $sentency->execute(array($genre));
-        return $sentency->fetchAll(PDO::FETCH_OBJ);
-    }
     function getGenres(){
         $sentency = $this->db->prepare("SELECT * FROM generos ORDER BY genero");
         $sentency->execute();
         return $sentency->fetchAll(PDO::FETCH_OBJ);
     }
 
-    function traerGenero($id){
+    function getGenre($id){
         $sentency = $this->db->prepare("SELECT * FROM generos WHERE id_genero=?");
         $sentency->execute(array($id));
         return $sentency->fetch(PDO::FETCH_OBJ);

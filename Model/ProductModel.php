@@ -14,6 +14,11 @@ class ProductModel{
         $sentency->execute();
         return $sentency->fetchAll(PDO::FETCH_OBJ);
     }
+    function getProductsByGenre($id){
+        $sentency = $this->db->prepare("SELECT * FROM productos WHERE fk_id_genero=?");
+        $sentency->execute(array($id));
+        return $sentency->fetchAll(PDO::FETCH_OBJ);
+    }
 
     function getProducts(){
         $sentency = $this->db->prepare("SELECT * FROM productos");

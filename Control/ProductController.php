@@ -16,10 +16,11 @@ class ProductController extends ContentController{
         $this->productView->showProduct($sessiON, $product, $genres);
     }
 
-    function showProductByGenre($genre){
+    function showProductByGenre($id){
         $sessiON = $this->authHelper->checkLoggedIn();
-        $table = $this->genreModel->tablesFilteredByGenre($genre);
-        $this->productView->showProductByGenre($sessiON, $table);
+        $table = $this->productModel->getProductsByGenre($id);
+        $genre = $this->genreModel->getGenre($id);
+        $this->productView->showProductByGenre($sessiON, $table, $genre);
     }
 
     function createProduct(){

@@ -37,9 +37,10 @@ class ProductView{
         $this->smarty->display('./templates/productoEspecifico.tpl');
     }
 
-    function showProductByGenre($sessiON, $table){
+    function showProductByGenre($sessiON, $table, $genre){
         $this->smarty->assign('sessiON', $sessiON);
         $this->smarty->assign('juegos', $table);
+        $this->smarty->assign('genero', $genre);
         $this->smarty->display('./templates/listaJuegos.tpl');
     }
 

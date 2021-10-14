@@ -47,12 +47,10 @@ switch ($params[0]){
         break;
     //CATALOGO
     case 'juegoEspecifico':
-        //VER SI PUEDO IMPLEMENTAR EL $VARIABLE = null/''
-        if(is_numeric($params[1])){
-            $productController->showProduct($params[1]);
-        }else{
-            $productController->editProduct($params[2]);
-        }
+        $productController->showProduct($params[1]);
+        break;
+    case 'editarProducto':
+        $productController->editProduct($params[1]);
         break;
     case 'categorias':
         if (empty($params[1])) {
@@ -61,6 +59,7 @@ switch ($params[0]){
             $productController->showProductByGenre($params[1]);
         }
         break;
+
     case 'catalogue':
         $contentController->showCatalogue();
         break;

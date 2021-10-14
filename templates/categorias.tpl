@@ -11,7 +11,7 @@
                 {if $sessiON}
                     <input type="checkbox" name="id_genero" value="{$categoria->id_genero}">
                 {/if}
-                <a href="categorias/{$categoria->genero}">{$categoria->genero}</a>
+                <a href="categorias/{$categoria->id_genero}">{$categoria->genero}</a>
                 {if $sessiON}
                     <br><a href="{BASE_URL}/borrarGenero/{$categoria->id_genero}">Borrar todo el genero</a>
                 {/if}
