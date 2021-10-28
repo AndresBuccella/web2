@@ -28,12 +28,6 @@ switch ($params[0]){
     case 'logout':
         $loginController->logout();
         break;
-/*    case 'singUp':
-        $singupController->singUp();
-        break;
-    case 'verifySingup':
-        $singupController->verifySingUp();
-        break;*/
     case 'loginUser':
         $loginController->login();
         break;
