@@ -29,7 +29,7 @@ switch ($params[0]){
         $loginController->logout();
         break;
     case 'loginUser':
-        $loginController->login();
+        $loginController->showLogin();
         break;
     case 'verifyLogin':
         $loginController->verifyLogin();

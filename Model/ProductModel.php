@@ -34,13 +34,10 @@ class ProductModel{
 
     function updateProduct($id, $nombre, $precio, $descripcion, $plataforma, $fk_id_genero){
         $sentency = $this->db->prepare(" UPDATE productos 
-        SET nombre='$nombre', 
-        precio='$precio',
-        descripcion= '$descripcion',
-        plataforma='$plataforma',
-        fk_id_genero='$fk_id_genero'
+        SET (nombre, precio, descripcion, plataforma, fk_id_genero)
+        VALUES(?,?,?,?,?)
         WHERE id_producto=?");
-        $sentency->execute(array($id));
+        $sentency->execute(array($nombre, $precio, $descripcion, $plataforma, $fk_id_genero, $id));
     }
 
 

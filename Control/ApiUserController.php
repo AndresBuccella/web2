@@ -1,20 +1,22 @@
 <?php
-
+require_once('LoginController.php');
 require_once('Model/UserModel.php');
-//require_once('View/SingUpView.php');
+require_once('View/SingUpView.php');
 
 
 require_once('View/ApiView.php');
 
 class ApiUserController{
 
+    private $controller;
     private $model;
-    //private $view;
+    private $view;
     private $viewApi;
 
     function __construct(){
+        $this->loginController = new LoginController();
         $this->model = new UserModel();
-        //$this->view = new SingUpView();
+        $this->viewSingUp = new SingUpView();
         $this->viewApi = new ApiView();
     }
 /*
@@ -56,7 +58,7 @@ class ApiUserController{
             return $this->viewApi->response($users, 200);
         }else{
             $idUser = $params[":ID"];
-            $user = $this->model->getUser($idUser);
+            $user = $this->model->getUserById($idUser);
             if (!empty($user)) {
                 return $this->viewApi->response($user, 200);
             }else{
@@ -79,6 +81,8 @@ class ApiUserController{
                 }
             }
             $id = $this->model->addUser($body->user, $body->email, $body->password);
+            $this->loginController->verifyLogin($body->user, $body->password);
+            $this->viewSingUp->showLogin();
             return $this->viewApi->response("El usuario con id=$id fue ingresado correctamente", 200);
 
         }else{
@@ -90,7 +94,7 @@ class ApiUserController{
 
     function deleteUser($params = []) {
         $id = $params[':ID'];
-        $user = $this->model->getUser($id);
+        $user = $this->model->getUserById($id);
 
         if ($user) {
             $this->model->deleteUser($id);
@@ -105,7 +109,7 @@ class ApiUserController{
             $this->viewApi->response("Debe ingresar un id para editar el rol", 200);
         }else {
             $id = $params[':ID'];
-            $user = $this->model->getUser($id);
+            $user = $this->model->getUserById($id);
     
             $license = $this->getBody();
     
@@ -116,7 +120,6 @@ class ApiUserController{
                 $this->viewApi->response("User id=$id not found", 404);
             }
         }
-
     }
 
     private function getBody(){

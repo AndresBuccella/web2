@@ -2,6 +2,7 @@
 
 
 require_once('Model/UserModel.php');
+require_once('Model/CommentModel.php');
 //require_once('View/SingUpView.php');
 
 
@@ -10,25 +11,62 @@ require_once('View/ApiView.php');
 class ApiCommentController{
 
 
-    private $model;
+    private $userModel;
+    private $commentModel;
     //private $view;
     private $viewApi;
 
 
     function __construct(){
-        $this->model = new UserModel();
+        $this->userModel = new UserModel();
+        $this->commentModel = new CommentModel();
         //$this->view = new SingUpView();
         $this->viewApi = new ApiView();
         
     }
 
 
-    function getComments(){
-        $comments = $this->model->getComments();
-        if (empty($comments)) {
-            $this->viewApi->response("No se han registrado usuarios", 204);
+    private function getBody(){
+        $bodyString = file_get_contents("php://input");
+        return json_decode($bodyString);
+    }
+
+    function addComment(){
+        $body = $this->getBody();
+        if (isset($body)) {
+            $this->commentModel->addComment($body->comment, $body->score,  $body->fk_usuario, $body->fk_producto);
+            $this->viewApi->response("Comentario agregado con éxito", 200);
         }else{
-            return $this->viewApi->response($users, 200);
+            $this->viewApi->response("Ingrese los datos, por favor", 404);
+        }
+    }
+
+    function getComments(){
+        $body = $this->getBody();
+        if (isset($body)){
+            $comments = $this->commentModel->getComments($body->fk_producto);
+            if (empty($comments)) {
+                $this->viewApi->response("No se han registrado comentarios", 204);
+            }else{
+                return $this->viewApi->response($comments, 200);
+            }
+        }
+    }
+
+
+    function deteleComment($params = []) {
+        if (!empty($params)) {
+            $id = $params[':ID'];
+            $comment = $this->commentModel->getComment($id);
+
+            if (isset($comment)) { //compruebo la existencia por si otro admin lo borro y no se acualizo en la pagina que veo
+                print_r('hola');
+                $this->commentModel->deleteComment($id);
+                $this->viewApi->response("Comentario id=$id eliminado con éxito", 200);
+            }
+            else{
+                $this->viewApi->response("Comentario id=$id not found", 404);
+            }
         }
     }
 
@@ -49,10 +87,7 @@ class ApiCommentController{
 
 
 
-
-
-
-
+/*
     function getUser($params = []){
         if (empty($params)) {
             $users = $this->model->getUsers();
@@ -67,29 +102,6 @@ class ApiCommentController{
             }
         }
     }
-
-    function addUser(){
-        $body = $this->getBody();
-        if ((!empty($body->user)) && (!empty($body->email)) && (!empty($body->password))) {
-            $users = $this->model->getUsers();
-            foreach ($users as $user) {
-                if ($user->usuario == $body->user) {
-                    return $this->viewApi->response("El usuario ya existe", 500);
-                    //VER QUE CODIGO PONER
-                }
-                if ($user->mail == $body->email) {
-                    return $this->viewApi->response("El email ya existe", 500);
-                }
-            }
-            $id = $this->model->addUser($body->user, $body->email, $body->password);
-            return $this->viewApi->response("El usuario con id=$id fue ingresado correctamente", 200);
-
-        }else{
-            return $this->viewApi->response("El usuario no se pudo registrar por falta de datos", 500);
-        }
-    }
-
-
 
     function deleteUser($params = []) {
         $id = $params[':ID'];
@@ -126,7 +138,7 @@ class ApiCommentController{
         $bodyString = file_get_contents("php://input");
         return json_decode($bodyString);
     }
-/*
+
  NO HAY QUE EDITARLO PERO LO DEJO POR LAS DUDAS
 
     function updateUser($params = []){
@@ -143,5 +155,4 @@ class ApiCommentController{
         }
 
     }*/
-}
 }

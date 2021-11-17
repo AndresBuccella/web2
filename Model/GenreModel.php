@@ -26,11 +26,8 @@ class GenreModel{
     }
 
     function updateGenre($genre, $description, $id){
-        $sentency = $this->db->prepare(" UPDATE generos 
-        SET genero='$genre', 
-        descripcion_genero='$description'
-        WHERE id_genero=?");
-        $sentency->execute(array($id));
+        $sentency = $this->db->prepare(" UPDATE generos SET (genero, descripcion_genero) VALUES (?,?) WHERE id_genero=?");
+        $sentency->execute(array($genre, $description, $id));
     }
 
     function deleteGenre($id_genero){

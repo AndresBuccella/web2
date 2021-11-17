@@ -16,7 +16,7 @@ class LoginController{
         $this->authHelper = new AuthHelper();
     }
 
-    function login(){
+    function showLogin(){
         $this->view->showLogin();
     }
 
@@ -24,25 +24,32 @@ class LoginController{
         $this->authHelper->logout();
         $this->view->showLogin('Te deslogueaste');
     }
+    
+    private function login($newUser, $password){
+
+        $user = $this->userModel->getUserByName($newUser);
+        if ($user && password_verify($password, $user->clave)){
+            session_start();
+            $_SESSION['usuario'] = $user->usuario;
+            $sessiON = true;
+            $this->view->showHome($sessiON, 'Bienvenido: ', $newUser);
+        }else{
+            $this->view->showLogin('Acceso denegado');
+        }
+
+    }
 
     function verifyLogin(){
         if ((!empty($_POST['usuario']) && (!empty($_POST['clave'])))) {
             $newUser = $_POST['usuario'];
             $password = $_POST['clave'];
-
-            $user = $this->userModel->getUser($newUser);
-
-            if ($user && password_verify($password, $user->clave)){
-                session_start();
-                $_SESSION['usuario'] = $user->usuario;
-                $sessiON = true;
-                $this->view->showHome($sessiON, 'Bienvenido: ', $newUser);
+            $this->login($newUser, $password);
+        }else{
+            if (!empty($user) && !empty($password)) {
+                $this->login($user, $password);
             }else{
                 $this->view->showLogin('Acceso denegado');
             }
-        }else{
-            $this->view->showLogin('Acceso denegado');
         }
-        
     }
 }
