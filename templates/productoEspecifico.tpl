@@ -13,7 +13,7 @@
 
 </div>
 
-{if $sessiON}
+{if $admin}
 <form action="editarProducto/{$producto->id_producto}" method="POST">
     <h3>Editar campos</h3>
     <input type="text" name="nombre" value="{$producto->nombre}">

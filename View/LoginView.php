@@ -10,17 +10,19 @@ class LoginView{
         $this->smarty = new Smarty();
     }
 
-    function showLogin($okSingup = '', $sessiON = false){
+    function showLogin($sessiON = false, $msg = '', $admin = false){
         $this->smarty->assign('title', 'Log In');
+        $this->smarty->assign('msg', $msg);
         $this->smarty->assign('sessiON', $sessiON);
-        $this->smarty->assign('okSingup', $okSingup);
+        $this->smarty->assign('admin', $admin);
         $this->smarty->display('./templates/login.tpl');
     }
 
-    function showHome($sessiON = false, $alert='', $user=''){
+    function showHome($sessiON = false, $alert='', $user='', $admin = false){
         $this->smarty->assign('sessiON', $sessiON);
         $this->smarty->assign('alert', $alert);
         $this->smarty->assign('user', $user);
+        $this->smarty->assign('admin', $admin);
         $this->smarty->display('./templates/home.tpl');
     }
 

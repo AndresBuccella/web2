@@ -23,13 +23,13 @@
                 <td class="td">{$producto->plataforma}</td>
                 <td class="td">{$producto->genero}</td>
                 <td class="td">{$producto->descripcion_genero}</td>
-                {if $sessiON}
+                {if $admin}
                     <td><a href="borrarProducto/{$producto->id_producto}">Borrar</a></td>
                 {/if}
             </tr>
         {/foreach}
     </table>
-    {if $sessiON}
+    {if $admin}
     
     <form action="crearProducto" method="POST">
             <h3>Agregar un juego</h3>

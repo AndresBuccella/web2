@@ -8,19 +8,20 @@ class ProductController extends ContentController{
         parent::__construct();
     }
 
-
     function showProduct($id){
         $sessiON = $this->authHelper->checkLoggedIn();
+        $admin = $this->authHelper->admin();
         $product = $this->productModel->getProduct($id);
         $genres = $this->genreModel->getGenres();
-        $this->productView->showProduct($sessiON, $product, $genres);
+        $this->productView->showProduct($sessiON, $product, $genres, $admin);
     }
 
     function showProductByGenre($id){
         $sessiON = $this->authHelper->checkLoggedIn();
+        $admin = $this->authHelper->admin();
         $table = $this->productModel->getProductsByGenre($id);
         $genre = $this->genreModel->getGenre($id);
-        $this->productView->showProductByGenre($sessiON, $table, $genre);
+        $this->productView->showProductByGenre($sessiON, $table, $genre, $admin);
     }
 
     function createProduct(){
@@ -39,14 +40,31 @@ class ProductController extends ContentController{
 
     function deleteProduct($id){
         $this->authHelper->checkPermission();
-        $this->productModel->deleteProduct($id);
-        $this->productView->showCatalogueLocation();
+        $admin = $this->authHelper->admin();
+        if ($admin) {
+            $this->productModel->deleteProduct($id);
+            $this->productView->showCatalogueLocation();
+        }else{
+            $this->productView->showLoginLocation();
+        }
     }
 
     function editProduct($id){
         $this->authHelper->checkPermission();
-        $this->productModel->updateProduct($id, $_POST['nombre'], $_POST['precio'], $_POST['descripcion'], $_POST['plataforma'], $_POST['fk_id_genero']);
-        $this->productView->showSpecifiedProduct($id);
+        $admin = $this->authHelper->admin();
+
+        $name = $_POST['nombre'];
+        $price = $_POST['precio'];
+        $description = $_POST['descripcion'];
+        $platform = $_POST['plataforma'];
+        $fk_id_genero = $_POST['fk_id_genero'];
+
+        if (($admin) && (isset($name)) && (isset($price)) && (isset($platform)) && (isset($fk_id_genero))) {
+            $this->productModel->updateProduct($id, $name, $price, $description, $platform, $fk_id_genero);
+            $this->productView->showSpecifiedProduct($id);
+        }else{
+            $this->productView->showLoginLocation();
+        }
     }
 
 }

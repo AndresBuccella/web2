@@ -4,6 +4,7 @@ require_once('Control/ContentController.php');
 require_once('Control/ProductController.php');
 require_once('Control/GenreController.php');
 require_once('Control/LoginController.php');
+require_once('Control/UserController.php');
 //require_once('Control/SingUpController.php');
 
 define('BASE_URL', '//'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']).'/');
@@ -11,7 +12,7 @@ define('BASE_URL', '//'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] 
 if (!empty($_GET['action'])){
     $action = $_GET['action'];
 }else{
-    $action = 'catalogue';
+    $action = 'home';
 }
 
 
@@ -20,11 +21,22 @@ $contentController = new ContentController();
 $productController = new ProductController();
 $genreController = new GenreController();
 $loginController = new LoginController();
+$userController = new UserController();
 
-//$singupController = new SingUpController();
+
 
 
 switch ($params[0]){
+    //USERS
+    case 'signUp':
+        $userController->showSignUp();
+        break;
+    case 'addUser':
+        $userController->addUser();
+        break;
+    case 'deleteUser':
+        $userController->deleteUser($params[1]);
+        break;
     case 'logout':
         $loginController->logout();
         break;
@@ -33,6 +45,15 @@ switch ($params[0]){
         break;
     case 'verifyLogin':
         $loginController->verifyLogin();
+        break;
+    case 'users':
+        $userController->showUsers();
+        break;
+    case 'deleteUser':
+        $userController->deleteUser($params[1]);
+        break;
+    case 'updateLicense':
+        $userController->updateLicense($params[1]);
         break;
 
     //HOME

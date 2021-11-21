@@ -12,40 +12,44 @@ class ProductView{
         $this->currency = '$';
     }
 
-    function showHome($sessiON=false, $alert='', $user=''){
+    function showHome($sessiON=false, $alert='', $user='', $admin = false){
         $this->smarty->assign('sessiON', $sessiON);
         $this->smarty->assign('alert', $alert);
         $this->smarty->assign('user', $user);
+        $this->smarty->assign('admin', $admin);
         $this->smarty->display('./templates/home.tpl');
     }
 
-    function showProducts($sessiON, $product, $genres){
+    function showProducts($sessiON, $product, $genres, $admin = false){
         //EN LA VARIABLE PRODUCTOS, ASIGNA $PRODUCTOS
         $this->smarty->assign('sessiON', $sessiON);
+        $this->smarty->assign('admin', $admin);
         $this->smarty->assign('productos', $product);
         $this->smarty->assign('generos', $genres);
         $this->smarty->assign('moneda', $this->currency);
         $this->smarty->display('./templates/tablaProductos.tpl');
-        //LA MAS LINDA
     }
 
-    function showProduct($sessiON, $product, $genres){
+    function showProduct($sessiON, $product, $genres, $admin = false){
         $this->smarty->assign('sessiON', $sessiON);
+        $this->smarty->assign('admin', $admin);
         $this->smarty->assign('producto', $product);
         $this->smarty->assign('generos', $genres);
         $this->smarty->assign('moneda', $this->currency);
         $this->smarty->display('./templates/productoEspecifico.tpl');
     }
 
-    function showProductByGenre($sessiON, $table, $genre){
+    function showProductByGenre($sessiON, $table, $genre, $admin = false){
         $this->smarty->assign('sessiON', $sessiON);
+        $this->smarty->assign('admin', $admin);
         $this->smarty->assign('juegos', $table);
         $this->smarty->assign('genero', $genre);
         $this->smarty->display('./templates/listaJuegos.tpl');
     }
 
-    function showCategories($sessiON, $genres, $error = ''){
+    function showCategories($sessiON, $genres, $error = '', $admin = false){
         $this->smarty->assign('sessiON', $sessiON);
+        $this->smarty->assign('admin', $admin);
         $this->smarty->assign('categorias', $genres);
         $this->smarty->assign('error', $error);
         $this->smarty->display('./templates/categorias.tpl');

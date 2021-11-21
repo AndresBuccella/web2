@@ -22,17 +22,18 @@ class LoginController{
 
     function logout(){
         $this->authHelper->logout();
-        $this->view->showLogin('Te deslogueaste');
+        $sessiON = false;
+        $msg = 'Log out successfull';
+        $this->view->showLogin($sessiON, $msg);
     }
     
     private function login($newUser, $password){
 
         $user = $this->userModel->getUserByName($newUser);
         if ($user && password_verify($password, $user->clave)){
-            session_start();
-            $_SESSION['usuario'] = $user->usuario;
-            $sessiON = true;
-            $this->view->showHome($sessiON, 'Bienvenido: ', $newUser);
+            $sessiON = $this->authHelper->login($user);
+            $admin = $this->authHelper->admin();
+            $this->view->showHome($sessiON, 'Bienvenido: ', $newUser, $admin);
         }else{
             $this->view->showLogin('Acceso denegado');
         }

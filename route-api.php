@@ -7,11 +7,13 @@ require_once 'Control/ApiCommentController.php';
 $router = new Router();
 
 // define la tabla de ruteo
+/*
 $router->addRoute('usuarios', 'GET', 'ApiUserController', 'getUsers');
 $router->addRoute('usuario/:ID', 'GET', 'ApiUserController', 'getUser');
 $router->addRoute('usuario', 'POST', 'ApiUserController', 'addUser');
 $router->addRoute('usuario/:ID', 'DELETE', 'ApiUserController', 'deleteUser');
 $router->addRoute('usuario/:ID', 'PUT', 'ApiUserController', 'updateLicense');
+*/
 
 
 

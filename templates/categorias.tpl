@@ -8,11 +8,11 @@
     <ul>
         {foreach from=$categorias item=$categoria}
             <li>
-                {if $sessiON}
+                {if $admin}
                     <input type="checkbox" name="id_genero" value="{$categoria->id_genero}">
                 {/if}
                 <a href="categorias/{$categoria->id_genero}">{$categoria->genero}</a>
-                {if $sessiON}
+                {if $admin}
                     <br><a href="{BASE_URL}/borrarGenero/{$categoria->id_genero}">Borrar todo el genero</a>
                 {/if}
                 <p>Descripcion: {$categoria->descripcion_genero}</p>
@@ -20,7 +20,7 @@
 
         {/foreach}
     </ul>
-    {if $sessiON}
+    {if $admin}
         <h3>Editar un Genero</h3>
 
         <input type="text" name="genero" placeholder="Genero">
@@ -29,7 +29,7 @@
     {/if}
 </form>
 
-    {if $sessiON}
+    {if $admin}
     <form action="crearGenero" method="POST">
         <h3>Agregar un Genero</h3>
         <input type="text" name="genero" placeholder="Nombre del genero">
