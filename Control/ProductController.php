@@ -1,16 +1,19 @@
 <?php
 require_once 'ContentController.php';
+require_once './Model/CommentModel.php';
 
 class ProductController extends ContentController{
 
+    private $commentModel;
 
     function __construct(){
         parent::__construct();
+        $this->commentModel = new CommentModel();
     }
 
     function showProduct($id){
         $sessiON = $this->authHelper->checkLoggedIn();
-        $admin = $this->authHelper->admin();
+        $admin = $this->authHelper->admin($sessiON);
         $product = $this->productModel->getProduct($id);
         $genres = $this->genreModel->getGenres();
         $this->productView->showProduct($sessiON, $product, $genres, $admin);
@@ -18,7 +21,7 @@ class ProductController extends ContentController{
 
     function showProductByGenre($id){
         $sessiON = $this->authHelper->checkLoggedIn();
-        $admin = $this->authHelper->admin();
+        $admin = $this->authHelper->admin($sessiON);
         $table = $this->productModel->getProductsByGenre($id);
         $genre = $this->genreModel->getGenre($id);
         $this->productView->showProductByGenre($sessiON, $table, $genre, $admin);
@@ -26,22 +29,28 @@ class ProductController extends ContentController{
 
     function createProduct(){
         $this->authHelper->checkPermission();
-        $table = $this->productModel->getProducts();
-        foreach ($table as $game) {
-            if (($game->nombre == $_POST['nombre']) && ($game->plataforma == $_POST['plataforma'])) {
-                $this->productView->showCatalogueLocation();
-                return;
+        $sessiON = true;
+        $admin = $this->authHelper->admin($sessiON);
+        if ($admin) {
+            $table = $this->productModel->getProducts();
+            foreach ($table as $game) {
+                if (($game->nombre == $_POST['nombre']) && ($game->plataforma == $_POST['plataforma'])) {
+                    $this->productView->showCatalogueLocation();
+                    return;
+                }
             }
+            $this->productModel->addProduct($_POST['nombre'], $_POST['precio'], $_POST['descripcion'], $_POST['plataforma'], $_POST['fk_id_genero']);
+            $this->productView->showCatalogueLocation();
         }
-        $this->productModel->addProduct($_POST['nombre'], $_POST['precio'], $_POST['descripcion'], $_POST['plataforma'], $_POST['fk_id_genero']);
-        $this->productView->showCatalogueLocation();
     }
 
 
     function deleteProduct($id){
         $this->authHelper->checkPermission();
-        $admin = $this->authHelper->admin();
+        $sessiON = true;
+        $admin = $this->authHelper->admin($sessiON);
         if ($admin) {
+            $this->commentModel->deleteComments($id);
             $this->productModel->deleteProduct($id);
             $this->productView->showCatalogueLocation();
         }else{
@@ -51,7 +60,8 @@ class ProductController extends ContentController{
 
     function editProduct($id){
         $this->authHelper->checkPermission();
-        $admin = $this->authHelper->admin();
+        $sessiON = true;
+        $admin = $this->authHelper->admin($sessiON);
 
         $name = $_POST['nombre'];
         $price = $_POST['precio'];

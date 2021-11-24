@@ -26,4 +26,8 @@ class CommentModel{
         $sentency = $this->db->prepare("DELETE FROM comentarios WHERE id_comentario=?");
         $sentency->execute(array($id));
     }
+    function deleteComments($product_id){
+        $sentency = $this->db->prepare("DELETE FROM comentarios WHERE fk_producto=?");
+        $sentency->execute(array($product_id));
+    }
 }

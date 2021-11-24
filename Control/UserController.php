@@ -29,7 +29,7 @@ class UserController{
     function showUsers(){
         $this->authHelper->checkPermission();
         $sessiON = true;
-        $admin = $this->authHelper->admin();
+        $admin = $this->authHelper->admin($sessiON);
         if ($admin) {
             $sessiON = $admin;
             $users = $this->userModel->getUsers(); //solo un usuario puede ver los usuarios por lo que no tendria sentido comprobar la existencia
@@ -90,8 +90,8 @@ class UserController{
 
     function deleteUser($id) {
         $this->authHelper->checkPermission();
-        $admin = $this->authHelper->admin();
         $sessiON = true;
+        $admin = $this->authHelper->admin($sessiON);
         if ($admin) {
             if (($id > 0) && is_numeric($id)) {
                 $user = $this->userModel->getUserById($id);
@@ -110,8 +110,8 @@ class UserController{
 
     function updateLicense($id){
         $this->authHelper->checkPermission();
-        $admin = $this->authHelper->admin();
         $sessiON = true;
+        $admin = $this->authHelper->admin($sessiON);
 
         $adminUser = 2;
         $normalUser = 1;
@@ -132,10 +132,7 @@ class UserController{
 
     }
  
-    private function getBody(){
-        $bodyString = file_get_contents("php://input");
-        return json_decode($bodyString);
-    }
+    
 /*
  NO HAY QUE EDITARLO PERO LO DEJO POR LAS DUDAS
 

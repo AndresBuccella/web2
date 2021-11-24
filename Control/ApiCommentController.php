@@ -41,10 +41,10 @@ class ApiCommentController{
         }
     }
 
-    function getComments(){
-        $body = $this->getBody();
-        if (isset($body)){
-            $comments = $this->commentModel->getComments($body->fk_producto);
+    function getComments($params = []){
+        $product_id = $params[':ID'];
+        if (is_numeric($product_id)){
+            $comments = $this->commentModel->getComments($product_id);
             if (empty($comments)) {
                 $this->viewApi->response("No se han registrado comentarios", 204);
             }else{
@@ -60,7 +60,6 @@ class ApiCommentController{
             $comment = $this->commentModel->getComment($id);
 
             if (isset($comment)) { //compruebo la existencia por si otro admin lo borro y no se acualizo en la pagina que veo
-                print_r('hola');
                 $this->commentModel->deleteComment($id);
                 $this->viewApi->response("Comentario id=$id eliminado con éxito", 200);
             }

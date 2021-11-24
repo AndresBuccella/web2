@@ -38,8 +38,8 @@
             <textarea type="text" name="descripcion" placeholder="Descripcion del producto"></textarea>
             <input type="text" name="plataforma" placeholder="Plataforma">
             <select name="fk_id_genero">
-                {foreach from=$generos item=papa name="fk_id_genero"}
-                    <option name="fk_id_genero" value="{$papa->id_genero}">{$papa->genero}</option>
+                {foreach from=$generos item=genero name="fk_id_genero"}
+                    <option name="fk_id_genero" value="{$genero->id_genero}">{$genero->genero}</option>
                 {/foreach}
             
             </select>

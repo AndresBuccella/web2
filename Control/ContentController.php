@@ -26,14 +26,10 @@ class ContentController{
         $sessiON = $this->authHelper->checkLoggedIn();
         $this->productView->showHome($sessiON);
     }
-    function showHomeCSR(){
-        $sessiON = $this->authHelper->checkLoggedIn();
-        $this->userView->showLayoutCSR($sessiON);
-    }
     
     function showCatalogue(){
         $sessiON = $this->authHelper->checkLoggedIn();
-        $admin = $this->authHelper->admin();
+        $admin = $this->authHelper->admin($sessiON);
         $table = $this->productModel->joinedTables();
         $genres = $this->genreModel->getGenres();
         $this->productView->showProducts($sessiON, $table, $genres, $admin);

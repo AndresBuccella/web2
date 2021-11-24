@@ -32,7 +32,7 @@ class LoginController{
         $user = $this->userModel->getUserByName($newUser);
         if ($user && password_verify($password, $user->clave)){
             $sessiON = $this->authHelper->login($user);
-            $admin = $this->authHelper->admin();
+            $admin = $this->authHelper->admin($sessiON);
             $this->view->showHome($sessiON, 'Bienvenido: ', $newUser, $admin);
         }else{
             $this->view->showLogin('Acceso denegado');

@@ -32,17 +32,19 @@ class AuthHelper{
         }
     }
 
-    function admin(){
+    function admin($sessiON){
         //2- admin user
-        if($_SESSION['rol'] == 2){
-            return true;
-        }else{
-            return false;
+        if ($sessiON) {
+            if($_SESSION['rol'] == 2){
+                return true;
+            }
         }
+        return false;
     }
 
     function login($user){
         session_start();
+        $_SESSION['id'] = $user->id;
         $_SESSION['usuario'] = $user->usuario;
         $_SESSION['rol'] = $user->rol;
         return true;

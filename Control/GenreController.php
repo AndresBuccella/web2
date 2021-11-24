@@ -10,7 +10,7 @@ class GenreController extends ContentController{
     
     function showCategories(){
         $sessiON = $this->authHelper->checkLoggedIn();
-        $admin = $this->authHelper->admin();
+        $admin = $this->authHelper->admin($sessiON);
         $genres = $this->genreModel->getGenres();
         $this->productView->showCategories($sessiON, $genres, '', $admin);
 
@@ -18,9 +18,9 @@ class GenreController extends ContentController{
 
     function createGenre(){
         $this->authHelper->checkPermission();
-        $admin = $this->authHelper->admin();
+        $sessiON = true;
+        $admin = $this->authHelper->admin($sessiON);
         if ($admin) {
-            $sessiON = true;
             $genres = $this->genreModel->getGenres();
             foreach ($genres as $genre) {
                 if ($genre->genero == $_POST['genero']) {
@@ -38,9 +38,9 @@ class GenreController extends ContentController{
 
     function editGenre(){
         $this->authHelper->checkPermission();
-        $admin = $this->authHelper->admin();
+        $sessiON = true;
+        $admin = $this->authHelper->admin($sessiON);
         if ($admin) {
-            $sessiON = true;
             $genres = $this->genreModel->getGenres();
             foreach ($genres as $genre) {
                 if ($genre->genero == $_POST['genero']) {
@@ -57,9 +57,9 @@ class GenreController extends ContentController{
 
     function deteleGenre($id){
         $this->authHelper->checkPermission();
-        $admin = $this->authHelper->admin();
+        $sessiON = true;
+        $admin = $this->authHelper->admin($sessiON);
         if ($admin) {
-            $sessiON = true;
             $this->productModel->deleteProductByFk($id);
             $this->genreModel->deleteGenre($id);
             $genres =  $this->genreModel->getGenres();
