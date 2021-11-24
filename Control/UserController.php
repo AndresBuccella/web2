@@ -3,6 +3,7 @@ require_once('LoginController.php');
 require_once('Model/UserModel.php');
 require_once('View/SingUpView.php');
 require_once('View/UserView.php');
+require_once('View/GeneralView.php');
 require_once('./Helpers/AuthHelper.php');
 
 class UserController{
@@ -10,6 +11,7 @@ class UserController{
     private $loginController;
     private $userModel;
     private $userView;
+    private $generalView;
     private $authHelper;
 
     function __construct(){
@@ -17,6 +19,7 @@ class UserController{
         $this->userView = new UserView();
         $this->userModel = new UserModel();
         $this->viewSingUp = new SingUpView();
+        $this->generalView = new GeneralView();
         $this->authHelper = new AuthHelper();
     }
 
@@ -27,20 +30,18 @@ class UserController{
     }
     
     function showUsers(){
-        $this->authHelper->checkPermission();
-        $sessiON = true;
-        $admin = $this->authHelper->admin($sessiON);
-        if ($admin) {
-            $sessiON = $admin;
-            $users = $this->userModel->getUsers(); //solo un usuario puede ver los usuarios por lo que no tendria sentido comprobar la existencia
-            $this->userView->showUsers($users, $admin, $sessiON);
+        $sessiON = $this->authHelper->checkLoggedIn();
+        if ($sessiON) {
+            $admin = $this->authHelper->admin($sessiON);
+            if ($admin) {
+                $users = $this->userModel->getUsers(); //solo un usuario puede ver los usuarios por lo que no tendria sentido comprobar la existencia
+                $this->userView->showUsers($users, $admin, $sessiON);
+            }else{
+                $this->generalView->showLoginLocation();
+            }
         }else{
-            //mandar a home
+            $this->generalView->showLoginLocation();
         }
-        
-        
-        
-        
     }
     
     /*function getUser($params = []){
@@ -62,11 +63,11 @@ class UserController{
 
     function addUser(){
         
-        if ((isset($_POST['usuario'])) && (isset($_POST['mail'])) && (isset($_POST['clave']))) {
+        $usuario = $_POST['usuario'];
+        $mail = $_POST['mail'];
+        $clave = $_POST['clave'];
 
-            $usuario = $_POST['usuario'];
-            $mail = $_POST['mail'];
-            $clave = $_POST['clave'];
+        if ((isset($usuario)) && (isset($mail)) && (isset($clave))) {
 
             $users = $this->userModel->getUsers();
 
@@ -89,47 +90,57 @@ class UserController{
 
 
     function deleteUser($id) {
-        $this->authHelper->checkPermission();
-        $sessiON = true;
-        $admin = $this->authHelper->admin($sessiON);
-        if ($admin) {
-            if (($id > 0) && is_numeric($id)) {
-                $user = $this->userModel->getUserById($id);
-                
-                if ($user) {
-                    $this->userModel->deleteUser($id);
+        if (is_numeric($id)) {
+            $sessiON = $this->authHelper->checkLoggedIn();
+            if ($sessiON) {
+                $admin = $this->authHelper->admin($sessiON);
+                if ($admin) {
+                    $user = $this->userModel->getUserById($id);
+                    
+                    if ($user) {
+                        $this->userModel->deleteUser($id);
+                    }
+    
+                    $users = $this->userModel->getUsers();
+                    $this->userView->showUsers($users, $admin, $sessiON);
+                }else{
+                    $this->userView->showHome($sessiON);
                 }
-
-                $users = $this->userModel->getUsers();
-                $this->userView->showUsers($users, $admin, $sessiON);
+            }else{
+                $this->generalView->showLoginLocation();
             }
         }else{
-            $this->userView->showHome($sessiON);
+            $this->generalView->showLoginLocation();
         }
     }
 
     function updateLicense($id){
-        $this->authHelper->checkPermission();
-        $sessiON = true;
-        $admin = $this->authHelper->admin($sessiON);
+        if (is_numeric($id)) {
+            $sessiON = $this->authHelper->checkLoggedIn();
+            if ($sessiON) {
+                $admin = $this->authHelper->admin($sessiON);
 
-        $adminUser = 2;
-        $normalUser = 1;
-        
-
-        if ($admin) {
-            $user = $this->userModel->getUserById($id);
-            if ($user->rol == 1) {
-                $this->userModel->updateLicense($adminUser, $id);
-            } else if ($user->rol == 2) {
-                $this->userModel->updateLicense($normalUser, $id);
+                $adminUser = 2;
+                $normalUser = 1;
+                
+                if ($admin) {
+                    $user = $this->userModel->getUserById($id);
+                    if ($user->rol == 1) {
+                        $this->userModel->updateLicense($adminUser, $id);
+                    } else if ($user->rol == 2) {
+                        $this->userModel->updateLicense($normalUser, $id);
+                    }
+                    $users = $this->userModel->getUsers();
+                    $this->userView->showUsers($users, $admin, $sessiON);
+                }else{
+                    $this->userView->showHome($sessiON);
+                }
+            }else{
+                $this->generalView->showLoginLocation();
             }
-            $users = $this->userModel->getUsers();
-            $this->userView->showUsers($users, $admin, $sessiON);
         }else{
-            $this->userView->showHome($sessiON);
+            $this->generalView->showLoginLocation();
         }
-
     }
  
     

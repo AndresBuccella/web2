@@ -32,7 +32,9 @@ class ContentController{
         $admin = $this->authHelper->admin($sessiON);
         $table = $this->productModel->joinedTables();
         $genres = $this->genreModel->getGenres();
-        $this->productView->showProducts($sessiON, $table, $genres, $admin);
+        if ((!empty($table)) && (!empty($genres))) {
+            $this->productView->showProducts($sessiON, $table, $genres, $admin);
+        }
     }
 
     

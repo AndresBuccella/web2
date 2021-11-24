@@ -17,53 +17,94 @@ class GenreController extends ContentController{
     }
 
     function createGenre(){
-        $this->authHelper->checkPermission();
-        $sessiON = true;
-        $admin = $this->authHelper->admin($sessiON);
-        if ($admin) {
-            $genres = $this->genreModel->getGenres();
-            foreach ($genres as $genre) {
-                if ($genre->genero == $_POST['genero']) {
-                    $this->productView->showCategories($sessiON, $genres, 'Este genero ya existe', $admin);
-                    return;
+        $genero = $_POST['genero'];
+        $descripcion_genero = $_POST['descripcion_genero'];
+        if ((!empty($genero)) && (!empty($descripcion_genero))) {
+            $sessiON = $this->authHelper->checkLoggedIn();
+            if ($sessiON) {
+                $admin = $this->authHelper->admin($sessiON);
+                if ($admin) {
+                    $genres = $this->genreModel->getGenres();
+                    if (!empty($genres)) {
+                        foreach ($genres as $genre) {
+                            if ($genre->genero == $genero) {
+                                $this->productView->showCategories($sessiON, $genres, 'Este genero ya existe', $admin);
+                                return;
+                            }
+                        }
+                        $this->genreModel->addGenre($genero, $descripcion_genero);
+                        $this->productView->showCategories($sessiON, $genres, 'Creado con exito', $admin);
+                    }else {
+                        $this->productView->showCategoriesLocation();
+                    }
                 }
-            }
-            $this->genreModel->addGenre($_POST['genero'], $_POST['descripcion_genero']);
-            $this->productView->showCategories($sessiON, $genres, 'Creado con exito', $admin);
-        }
-        else{
-            //mandar a login
+                else{
+                    $this->productView->showLoginLocation();
+                }
+            }else{
+                $this->productView->showLoginLocation();
+            }   
+        }else{
+            $this->productView->showCategoriesLocation();
         }
     }
 
     function editGenre(){
-        $this->authHelper->checkPermission();
-        $sessiON = true;
-        $admin = $this->authHelper->admin($sessiON);
-        if ($admin) {
-            $genres = $this->genreModel->getGenres();
-            foreach ($genres as $genre) {
-                if ($genre->genero == $_POST['genero']) {
-                    $this->productView->showCategories($sessiON, $genres, 'Este genero ya existe', $admin);
-                    return;
+        $genero = $_POST['genero'];
+        $descripcion_genero = $_POST['descripcion_genero'];
+        $id_genero = $_POST['id_genero'];
+        if ((!empty($genero)) && (!empty($descripcion_genero)) && (!empty($id_genero))) {
+            $sessiON = $this->authHelper->checkLoggedIn();
+            if ($sessiON) {
+                $admin = $this->authHelper->admin($sessiON);
+                if ($admin) {
+                    $genres = $this->genreModel->getGenres();
+                    if (!empty($genres)){
+                        foreach ($genres as $genre) {
+                            if ($genre->genero == $genero) {
+                                $this->productView->showCategories($sessiON, $genres, 'Este genero ya existe', $admin);
+                                return;
+                            }
+                        }
+                        $this->genreModel->updateGenre($genero, $descripcion_genero, $id_genero);
+                        $this->productView->showCategories($sessiON, $genres, 'Genero actualizado', $admin);
+                    }else {
+                        $this->productView->showCategoriesLocation();
+                    }
+                }else{
+                    $this->productView->showLoginLocation();
                 }
+            }else{
+                $this->productView->showLoginLocation();
             }
-            $this->genreModel->updateGenre($_POST['genero'], $_POST['descripcion_genero'], $_POST['id_genero']);
-            $this->productView->showCategories($sessiON, $genres, 'Genero actualizado', $admin);
         }else{
-
+            $this->productView->showCategoriesLocation();
         }
     }
 
     function deteleGenre($id){
-        $this->authHelper->checkPermission();
-        $sessiON = true;
-        $admin = $this->authHelper->admin($sessiON);
-        if ($admin) {
-            $this->productModel->deleteProductByFk($id);
-            $this->genreModel->deleteGenre($id);
-            $genres =  $this->genreModel->getGenres();
-            $this->productView->showCategories($sessiON, $genres, 'Genero actualizado', $admin);
+        if (is_numeric($id)) {
+            $sessiON = $this->authHelper->checkLoggedIn();
+            if ($sessiON) {
+                $admin = $this->authHelper->admin($sessiON);
+                if ($admin) {
+                    $genre =  $this->genreModel->getGenre($id);
+                    if (!empty($genre)) {
+                        $this->productModel->deleteProductByFk($id);
+                        $this->genreModel->deleteGenre($id);
+                        $genres =  $this->genreModel->getGenres();
+                        $this->productView->showCategories($sessiON, $genres, 'Genero actualizado', $admin);
+                    }else {
+                        $this->productView->showCategoriesLocation();
+                    }
+                }else{
+                    $this->productView->showLoginLocation();
+                }
+            }else{
+                $this->productView->showLoginLocation();
+            }
+        }else {
+            $this->productView->showCategoriesLocation();
         }
     }
 }

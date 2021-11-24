@@ -17,9 +17,6 @@ class SingUpView{
     function showHomeLocation(){
         header('Location:' .BASE_URL. 'home');
     }
-    function showLogin(){
-        $this->login->showLogin('Registro exitoso. Bienvenido!');
-    }
     function showSingUp($error = ''){
         $this->smarty->assign('singup', 'Reg');
         $this->smarty->assign('error', $error);

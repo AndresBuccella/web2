@@ -1,30 +1,17 @@
 <?php
 
-
-require_once('Model/UserModel.php');
 require_once('Model/CommentModel.php');
-//require_once('View/SingUpView.php');
-
-
 require_once('View/ApiView.php');
 
 class ApiCommentController{
 
-
-    private $userModel;
     private $commentModel;
-    //private $view;
     private $viewApi;
 
-
     function __construct(){
-        $this->userModel = new UserModel();
         $this->commentModel = new CommentModel();
-        //$this->view = new SingUpView();
         $this->viewApi = new ApiView();
-        
     }
-
 
     private function getBody(){
         $bodyString = file_get_contents("php://input");
@@ -42,13 +29,15 @@ class ApiCommentController{
     }
 
     function getComments($params = []){
-        $product_id = $params[':ID'];
-        if (is_numeric($product_id)){
-            $comments = $this->commentModel->getComments($product_id);
-            if (empty($comments)) {
-                $this->viewApi->response("No se han registrado comentarios", 204);
-            }else{
-                return $this->viewApi->response($comments, 200);
+        if (!empty($params)) {
+            $product_id = $params[':ID'];
+            if (is_numeric($product_id)){
+                $comments = $this->commentModel->getComments($product_id);
+                if (empty($comments)) {
+                    $this->viewApi->response("No se han registrado comentarios", 204);
+                }else{
+                    return $this->viewApi->response($comments, 200);
+                }
             }
         }
     }
@@ -57,14 +46,16 @@ class ApiCommentController{
     function deteleComment($params = []) {
         if (!empty($params)) {
             $id = $params[':ID'];
-            $comment = $this->commentModel->getComment($id);
+            if (is_numeric($id)){
+                $comment = $this->commentModel->getComment($id);
 
-            if (isset($comment)) { //compruebo la existencia por si otro admin lo borro y no se acualizo en la pagina que veo
-                $this->commentModel->deleteComment($id);
-                $this->viewApi->response("Comentario id=$id eliminado con éxito", 200);
-            }
-            else{
-                $this->viewApi->response("Comentario id=$id not found", 404);
+                if (isset($comment)) { //compruebo la existencia por si otro admin lo borro y no se acualizo en la pagina que veo
+                    $this->commentModel->deleteComment($id);
+                    $this->viewApi->response("Comentario id=$id eliminado con éxito", 200);
+                }
+                else{
+                    $this->viewApi->response("Comentario id=$id not found", 404);
+                }
             }
         }
     }

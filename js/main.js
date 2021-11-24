@@ -10,7 +10,8 @@ document.querySelectorAll(".btn-borrar-comentario").forEach(btn => {
     btn.addEventListener("click", deleteComment)
 });
 
-async function deleteComment(){
+async function deleteComment(e){
+    e.preventDefault();
     try {
         let res = await fetch(`${API_URL}comentario/${this.databuttonname}`,{
             'method': 'DELETE'
@@ -26,35 +27,32 @@ async function deleteComment(){
 
 async function addComment(error){
     error.preventDefault();
-    /*
-    let formData = new FormData(commForm);
-    let texto = formData.get("comment");
-    let puntaje = formData.get("score");
-
-    let id_usuario = document.querySelector("#commForm").dataset.id_usuario; */
-    
-    let comentario = {
-        "comment" : formAddComment.comment.value,
-        "score" : formAddComment.score.value,
-        "fk_usuario" : formAddComment.fk_usuario.value,
-        "fk_producto" : formAddComment.fk_producto.value
-    }
-    try {
-        let response = await fetch(API_URL + 'comentario', {
-            'method': 'POST',
-            'headers': {'Content-type': 'application/json'},
-            'body': JSON.stringify(comentario) 
-        });
+    let formData = new FormData(formAddComment)
+    if (formData.get("comment") != '') {
+        let comentario = {
+            "comment" : formData.get("comment"),
+            "score" : formData.get("score"),
+            "fk_usuario" : formData.get("fk_usuario"),
+            "fk_producto" : formData.get("fk_producto")
+        }
+        try {
+            let response = await fetch(API_URL + 'comentario', {
+                'method': 'POST',
+                'headers': {'Content-type': 'application/json'},
+                'body': JSON.stringify(comentario) 
+            });
+            
+            if (response.status === 200){
+                getComments();
         
-        if (response.status === 200){
-            getComments();
-    
-        }else{
-            console.log('no');
+            }else{
+                console.log('no');
+            }
+            
+        } catch (error) {
+            console.log(error);
         }
         
-    } catch (error) {
-        console.log(error);
     }
 }
 
@@ -68,13 +66,14 @@ function showComments(comments, comentarios){
         div.classList.add("flex");
         let btnDelete = document.createElement("input");
         btnDelete.value = 'borrar';
-        btnDelete.type = 'button';
+        btnDelete.type = 'submit';
         btnDelete.databuttonname = comentario.id_comentario;
         btnDelete.classList.add("btn-borrar-comentario");
         btnDelete.addEventListener('click', deleteComment);
         div.innerHTML = 
                 `<p>${comentario.comentario}</p>
-                <p>Puntaje: ${comentario.puntaje}</p>`;
+                <p>Puntaje: ${comentario.puntaje}</p>
+                `;
 
         li.appendChild(div);
         li.appendChild(btnDelete);

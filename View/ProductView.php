@@ -20,11 +20,11 @@ class ProductView{
         $this->smarty->display('./templates/home.tpl');
     }
 
-    function showProducts($sessiON, $product, $genres, $admin = false){
+    function showProducts($sessiON, $products, $genres, $admin = false){
         //EN LA VARIABLE PRODUCTOS, ASIGNA $PRODUCTOS
         $this->smarty->assign('sessiON', $sessiON);
         $this->smarty->assign('admin', $admin);
-        $this->smarty->assign('productos', $product);
+        $this->smarty->assign('productos', $products);
         $this->smarty->assign('generos', $genres);
         $this->smarty->assign('moneda', $this->currency);
         $this->smarty->display('./templates/tablaProductos.tpl');

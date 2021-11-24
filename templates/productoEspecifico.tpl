@@ -38,6 +38,7 @@
 {if $smarty.session}
     <form action="" method="post" id="formAddComment">
         <input type="text" name="comment" placeholder="Comentar" value="">
+        <label for="">Puntaje: </label>
         <select name="score" id="score">
             <option name="score" value="1">1</option>
             <option name="score" value="2">2</option>
@@ -46,9 +47,8 @@
             <option name="score" value="5">5</option>
         </select>
         <input type="text" name="fk_usuario" value="{$smarty.session['id']}" hidden>
-        <input type="text" name="usuario" value="{$smarty.session['usuario']}" hidden>
         <input type="text" name="fk_producto" value="{$producto->id_producto}" hidden>
-        <input type="button" id="btn-comentar" value="Comentar">
+        <input type="submit" id="btn-comentar" value="Comentar">
     </form>
 {/if}
 

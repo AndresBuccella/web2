@@ -15,63 +15,113 @@ class ProductController extends ContentController{
         $sessiON = $this->authHelper->checkLoggedIn();
         $admin = $this->authHelper->admin($sessiON);
         $product = $this->productModel->getProduct($id);
-        $genres = $this->genreModel->getGenres();
-        $this->productView->showProduct($sessiON, $product, $genres, $admin);
+        if (!empty($product)) {
+            $genres = $this->genreModel->getGenres();//si existe el producto, es porque existe el genero
+            $this->productView->showProduct($sessiON, $product, $genres, $admin);
+        }else{
+            $this->productView->showCatalogueLocation();
+        }
     }
 
     function showProductByGenre($id){
         $sessiON = $this->authHelper->checkLoggedIn();
         $admin = $this->authHelper->admin($sessiON);
         $table = $this->productModel->getProductsByGenre($id);
-        $genre = $this->genreModel->getGenre($id);
-        $this->productView->showProductByGenre($sessiON, $table, $genre, $admin);
+        if (!empty($table)) {
+            $genre = $this->genreModel->getGenre($id);
+            $this->productView->showProductByGenre($sessiON, $table, $genre, $admin);
+        }else{
+            $this->productView->showCategoriesLocation();
+        }
     }
 
     function createProduct(){
-        $this->authHelper->checkPermission();
-        $sessiON = true;
-        $admin = $this->authHelper->admin($sessiON);
-        if ($admin) {
-            $table = $this->productModel->getProducts();
-            foreach ($table as $game) {
-                if (($game->nombre == $_POST['nombre']) && ($game->plataforma == $_POST['plataforma'])) {
-                    $this->productView->showCatalogueLocation();
-                    return;
+        $nombre = $_POST['nombre'];
+        $precio = $_POST['precio'];
+        $descripcion = $_POST['descripcion'];
+        $plataforma = $_POST['plataforma'];
+        $fk_id_genero = $_POST['fk_id_genero'];
+        if ((!empty($nombre) && !empty($precio) && !empty($descripcion) && !empty($plataforma) && !empty($fk_id_genero))) {
+            $sessiON = $this->authHelper->checkLoggedIn();
+            if ($sessiON) {
+                $admin = $this->authHelper->admin($sessiON);
+                if ($admin) {
+                    $table = $this->productModel->getProducts();
+                    if (!empty($table)) {
+                        foreach ($table as $game) {
+                            if (($game->nombre == $nombre) && ($game->plataforma == $plataforma)) {
+                                $this->productView->showCatalogueLocation();
+                                return;
+                            }
+                        }
+                        $this->productModel->addProduct($nombre, $precio, $descripcion, $plataforma, $fk_id_genero);
+                        $this->productView->showCatalogueLocation();
+                    }
+                }else{
+                    $this->productView->showLoginLocation();
                 }
+            }else{
+                $this->productView->showLoginLocation();
             }
-            $this->productModel->addProduct($_POST['nombre'], $_POST['precio'], $_POST['descripcion'], $_POST['plataforma'], $_POST['fk_id_genero']);
+        }else{
             $this->productView->showCatalogueLocation();
         }
     }
 
 
     function deleteProduct($id){
-        $this->authHelper->checkPermission();
-        $sessiON = true;
-        $admin = $this->authHelper->admin($sessiON);
-        if ($admin) {
-            $this->commentModel->deleteComments($id);
-            $this->productModel->deleteProduct($id);
-            $this->productView->showCatalogueLocation();
+        if (is_numeric($id)) {
+            $sessiON = $this->authHelper->checkLoggedIn();
+            if ($sessiON) {
+                $admin = $this->authHelper->admin($sessiON);
+                if ($admin) {
+                    $producto = $this->productModel->getProduct($id);
+                    if (!empty($producto)) {
+                        $this->commentModel->deleteComments($id);
+                        $this->productModel->deleteProduct($id);
+                        $this->productView->showCatalogueLocation();
+                    }else{
+                        $this->productView->showCatalogueLocation();
+                    }
+                }else{
+                    $this->productView->showLoginLocation();
+                }
+            }else{
+                $this->productView->showLoginLocation();
+            }
         }else{
             $this->productView->showLoginLocation();
         }
     }
 
     function editProduct($id){
-        $this->authHelper->checkPermission();
-        $sessiON = true;
-        $admin = $this->authHelper->admin($sessiON);
-
-        $name = $_POST['nombre'];
-        $price = $_POST['precio'];
-        $description = $_POST['descripcion'];
-        $platform = $_POST['plataforma'];
-        $fk_id_genero = $_POST['fk_id_genero'];
-
-        if (($admin) && (isset($name)) && (isset($price)) && (isset($platform)) && (isset($fk_id_genero))) {
-            $this->productModel->updateProduct($id, $name, $price, $description, $platform, $fk_id_genero);
-            $this->productView->showSpecifiedProduct($id);
+        if (is_numeric($id)) {
+            $nombre = $_POST['nombre'];
+            $precio = $_POST['precio'];
+            $descripcion = $_POST['descripcion'];
+            $plataforma = $_POST['plataforma'];
+            $fk_id_genero = $_POST['fk_id_genero'];
+            if ((!empty($nombre) && !empty($precio) && !empty($descripcion) && !empty($plataforma) && !empty($fk_id_genero))) {
+                $sessiON = $this->authHelper->checkLoggedIn();
+                if ($sessiON) {
+                    $admin = $this->authHelper->admin($sessiON);
+                    if ($admin) {
+                        $producto = $this->productModel->getProduct($id);
+                        if (!empty($producto)) {
+                            $this->productModel->updateProduct($id, $nombre, $precio, $descripcion, $plataforma, $fk_id_genero);
+                            $this->productView->showSpecifiedProduct($id);
+                        }else{
+                            $this->productView->showCatalogueLocation();
+                        }
+                    }else{
+                        $this->productView->showLoginLocation();
+                    }
+                }else{
+                    $this->productView->showLoginLocation();
+                }
+            }else{
+                $this->productView->showSpecifiedProduct($id);
+            }
         }else{
             $this->productView->showLoginLocation();
         }
