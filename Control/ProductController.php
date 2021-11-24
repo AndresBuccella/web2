@@ -19,7 +19,7 @@ class ProductController extends ContentController{
             $genres = $this->genreModel->getGenres();//si existe el producto, es porque existe el genero
             $this->productView->showProduct($sessiON, $product, $genres, $admin);
         }else{
-            $this->productView->showCatalogueLocation();
+            $this->generalView->showCatalogueLocation();
         }
     }
 
@@ -31,7 +31,7 @@ class ProductController extends ContentController{
             $genre = $this->genreModel->getGenre($id);
             $this->productView->showProductByGenre($sessiON, $table, $genre, $admin);
         }else{
-            $this->productView->showCategoriesLocation();
+            $this->generalView->showCategoriesLocation();
         }
     }
 
@@ -50,21 +50,21 @@ class ProductController extends ContentController{
                     if (!empty($table)) {
                         foreach ($table as $game) {
                             if (($game->nombre == $nombre) && ($game->plataforma == $plataforma)) {
-                                $this->productView->showCatalogueLocation();
+                                $this->generalView->showCatalogueLocation();
                                 return;
                             }
                         }
                         $this->productModel->addProduct($nombre, $precio, $descripcion, $plataforma, $fk_id_genero);
-                        $this->productView->showCatalogueLocation();
+                        $this->generalView->showCatalogueLocation();
                     }
                 }else{
-                    $this->productView->showLoginLocation();
+                    $this->generalView->showLoginLocation();
                 }
             }else{
-                $this->productView->showLoginLocation();
+                $this->generalView->showLoginLocation();
             }
         }else{
-            $this->productView->showCatalogueLocation();
+            $this->generalView->showCatalogueLocation();
         }
     }
 
@@ -79,18 +79,18 @@ class ProductController extends ContentController{
                     if (!empty($producto)) {
                         $this->commentModel->deleteComments($id);
                         $this->productModel->deleteProduct($id);
-                        $this->productView->showCatalogueLocation();
+                        $this->generalView->showCatalogueLocation();
                     }else{
-                        $this->productView->showCatalogueLocation();
+                        $this->generalView->showCatalogueLocation();
                     }
                 }else{
-                    $this->productView->showLoginLocation();
+                    $this->generalView->showLoginLocation();
                 }
             }else{
-                $this->productView->showLoginLocation();
+                $this->generalView->showLoginLocation();
             }
         }else{
-            $this->productView->showLoginLocation();
+            $this->generalView->showLoginLocation();
         }
     }
 
@@ -109,21 +109,21 @@ class ProductController extends ContentController{
                         $producto = $this->productModel->getProduct($id);
                         if (!empty($producto)) {
                             $this->productModel->updateProduct($id, $nombre, $precio, $descripcion, $plataforma, $fk_id_genero);
-                            $this->productView->showSpecifiedProduct($id);
+                            $this->generalView->showSpecifiedProduct($id);
                         }else{
-                            $this->productView->showCatalogueLocation();
+                            $this->generalView->showCatalogueLocation();
                         }
                     }else{
-                        $this->productView->showLoginLocation();
+                        $this->generalView->showLoginLocation();
                     }
                 }else{
-                    $this->productView->showLoginLocation();
+                    $this->generalView->showLoginLocation();
                 }
             }else{
-                $this->productView->showSpecifiedProduct($id);
+                $this->generalView->showSpecifiedProduct($id);
             }
         }else{
-            $this->productView->showLoginLocation();
+            $this->generalView->showLoginLocation();
         }
     }
 

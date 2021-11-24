@@ -20,7 +20,8 @@ class ApiCommentController{
 
     function addComment(){
         $body = $this->getBody();
-        if (isset($body)) {
+        if ((!empty($body->comment)) && (!empty($body->score)) && 
+                    (!empty($body->fk_usuario)) && (!empty($body->fk_producto))) {
             $this->commentModel->addComment($body->comment, $body->score,  $body->fk_usuario, $body->fk_producto);
             $this->viewApi->response("Comentario agregado con éxito", 200);
         }else{
@@ -49,7 +50,7 @@ class ApiCommentController{
             if (is_numeric($id)){
                 $comment = $this->commentModel->getComment($id);
 
-                if (isset($comment)) { //compruebo la existencia por si otro admin lo borro y no se acualizo en la pagina que veo
+                if (!empty($comment)) { //compruebo la existencia por si otro admin lo borro y no se acualizo en la pagina que veo
                     $this->commentModel->deleteComment($id);
                     $this->viewApi->response("Comentario id=$id eliminado con éxito", 200);
                 }

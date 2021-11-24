@@ -1,6 +1,7 @@
 <?php
 require_once './Model/ProductModel.php';
 require_once './Model/GenreModel.php';
+require_once './View/GeneralView.php';
 require_once './View/UserView.php';
 require_once './View/ProductView.php';
 require_once './Helpers/AuthHelper.php';
@@ -10,6 +11,7 @@ class ContentController{
 
     protected $productModel;
     protected $genreModel;
+    protected $generalView;
     protected $userView;
     protected $productView;
     protected $authHelper;
@@ -18,6 +20,7 @@ class ContentController{
         $this->productModel = new ProductModel();
         $this->genreModel = new GenreModel();
         $this->productView = new ProductView();
+        $this->generalView = new GeneralView();
         $this->userView = new UserView();
         $this->authHelper = new AuthHelper();
     }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-10-2021 a las 22:38:53
+-- Tiempo de generación: 24-11-2021 a las 22:59:57
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 8.0.2
 
@@ -24,6 +24,29 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `comentarios`
+--
+
+CREATE TABLE `comentarios` (
+  `id_comentario` int(11) NOT NULL,
+  `comentario` varchar(500) NOT NULL,
+  `puntaje` double NOT NULL,
+  `fk_usuario` int(11) NOT NULL,
+  `fk_producto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `comentarios`
+--
+
+INSERT INTO `comentarios` (`id_comentario`, `comentario`, `puntaje`, `fk_usuario`, `fk_producto`) VALUES
+(7, 'Primer comentario', 5, 26, 3),
+(18, 'Ultimo comentario', 5, 26, 3),
+(28, 'Gran juego', 5, 26, 85);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `generos`
 --
 
@@ -38,27 +61,21 @@ CREATE TABLE `generos` (
 --
 
 INSERT INTO `generos` (`id_genero`, `genero`, `descripcion_genero`) VALUES
-(9, 'Arcade', 'Lorem arcade'),
-(10, 'Plataforma', 'Lorem plataforma'),
 (11, 'Disparos', 'Lorem disparos'),
 (12, 'Peleas', 'Lorem peleas'),
-(13, 'Aventura conversacional', 'Lorem aventura conversacional'),
 (14, 'Aventura grafica', 'Lorem aventura grafica'),
-(16, 'Rol', 'Lorem rol'),
-(17, 'Aventura de accion', 'Lorem aventura de accion'),
-(18, 'Puzzle', 'Lorem puzzle'),
-(19, 'Puzle de bloques', 'Lorem puzle de bloques'),
 (20, 'Didactico', 'Lorem didactico'),
-(21, 'Preguntas', 'Lorem preguntas'),
 (22, 'Musical', 'Lorem musical'),
 (23, 'Ejercicio', 'Lorem ejercicio'),
-(24, 'Estrategia', 'Lorem estrategia'),
-(25, 'Simulacion', 'Lorem simulacion'),
 (26, 'Deportes', 'Lorem deportes'),
 (27, 'Carreras', 'Lorem carreras'),
 (28, 'Juegos de mesa', 'Lorem juegos de mesa'),
 (29, 'Juegos mecanicos', 'Lorem juegos mecanicos'),
-(32, 'Video interactivo', 'Lorem video interactivo');
+(50, 'Accion', 'Lorem accion'),
+(51, 'Estrategia', 'Lorem estrategia'),
+(52, 'Hack and Slash', 'Lorem hack and slash'),
+(53, 'Aventura', 'Lorem aventura'),
+(54, 'Rol', 'Lorem rol');
 
 -- --------------------------------------------------------
 
@@ -80,13 +97,12 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id_producto`, `nombre`, `precio`, `descripcion`, `plataforma`, `fk_id_genero`) VALUES
-(1, 'PacMan', 5, 'El clasico', 'Family', 9),
-(2, 'Galaga', 5, 'El clasico', 'PC', 9),
-(3, 'Fifa 21', 60, 'Juego de futbol', 'PC', 26),
-(4, 'NBA 2K21', 60, 'Juego de basquet', 'PC', 26),
-(5, 'Minecraft', 30, 'Juego de rol en el que podes construir', 'PC', 16),
-(6, 'Dark Souls', 20, 'Si te gustan los desafios, este es tu juego', 'PC', 16),
-(9, 'Dragon Ball FighterZ', 47, '', 'PC', 12);
+(3, 'Fifa 20', 70, 'Juego ', 'Ps4', 26),
+(85, 'Grand Theft Auto V', 11, 'Mundo abierto', 'PC', 50),
+(86, 'Halo Infinite', 60, 'Tiros y aliens', 'PC', 50),
+(87, 'Battlefield 6', 60, 'Muchos tiros', 'PC', 50),
+(88, 'UNO', 15, 'El clasico juego de cartas', 'PC', 28),
+(89, 'Performous', 10, 'Juego de karaoke', 'PC', 22);
 
 -- --------------------------------------------------------
 
@@ -98,19 +114,30 @@ CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL,
   `usuario` varchar(30) NOT NULL,
   `mail` varchar(30) NOT NULL,
-  `clave` varchar(200) NOT NULL
+  `clave` varchar(200) NOT NULL,
+  `rol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `usuario`, `mail`, `clave`) VALUES
-(26, 'admin', 'admin@admin.com', '$2y$10$wssGBqZv8M028r7gXIM/veLjHQivycasg1S3ROLFOHD83zKx/d8o6');
+INSERT INTO `usuarios` (`id`, `usuario`, `mail`, `clave`, `rol`) VALUES
+(26, 'admin', 'admin@admin.com', '$2y$10$wssGBqZv8M028r7gXIM/veLjHQivycasg1S3ROLFOHD83zKx/d8o6', 2),
+(32, 'noadmin', 'noadmin@noadmin.com', '$2y$10$IPkTehKX71BFhaggiBRwb.AiTqM7K.6Y/uzMW6CpyyOGT5QlvpeG.', 1),
+(33, 'noadmin2', 'noadmin2@noadmin2.com', '$2y$10$mHPzlUEZhlTzJBg.v96uQeZkqqdLaQFOBuF.0zp4hadANLd.aH2kq', 1);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  ADD PRIMARY KEY (`id_comentario`),
+  ADD KEY `fk_usuario` (`fk_usuario`),
+  ADD KEY `fk_producto` (`fk_producto`);
 
 --
 -- Indices de la tabla `generos`
@@ -136,26 +163,39 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
 -- AUTO_INCREMENT de la tabla `generos`
 --
 ALTER TABLE `generos`
-  MODIFY `id_genero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id_genero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  ADD CONSTRAINT `comentarios_ibfk_1` FOREIGN KEY (`fk_producto`) REFERENCES `productos` (`id_producto`),
+  ADD CONSTRAINT `comentarios_ibfk_2` FOREIGN KEY (`fk_usuario`) REFERENCES `usuarios` (`id`);
 
 --
 -- Filtros para la tabla `productos`

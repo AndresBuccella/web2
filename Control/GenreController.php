@@ -32,20 +32,19 @@ class GenreController extends ContentController{
                                 return;
                             }
                         }
-                        $this->genreModel->addGenre($genero, $descripcion_genero);
-                        $this->productView->showCategories($sessiON, $genres, 'Creado con exito', $admin);
-                    }else {
-                        $this->productView->showCategoriesLocation();
                     }
+                    $this->genreModel->addGenre($genero, $descripcion_genero);
+                    $genres = $this->genreModel->getGenres();
+                    $this->productView->showCategories($sessiON, $genres, 'Creado con exito', $admin);
                 }
                 else{
-                    $this->productView->showLoginLocation();
+                    $this->generalView->showLoginLocation();
                 }
             }else{
-                $this->productView->showLoginLocation();
+                $this->generalView->showLoginLocation();
             }   
         }else{
-            $this->productView->showCategoriesLocation();
+            $this->generalView->showCategoriesLocation();
         }
     }
 
@@ -67,18 +66,19 @@ class GenreController extends ContentController{
                             }
                         }
                         $this->genreModel->updateGenre($genero, $descripcion_genero, $id_genero);
+                        $genres = $this->genreModel->getGenres();
                         $this->productView->showCategories($sessiON, $genres, 'Genero actualizado', $admin);
                     }else {
-                        $this->productView->showCategoriesLocation();
+                        $this->generalView->showCategoriesLocation();
                     }
                 }else{
-                    $this->productView->showLoginLocation();
+                    $this->generalView->showLoginLocation();
                 }
             }else{
-                $this->productView->showLoginLocation();
+                $this->generalView->showLoginLocation();
             }
         }else{
-            $this->productView->showCategoriesLocation();
+            $this->generalView->showCategoriesLocation();
         }
     }
 
@@ -95,16 +95,16 @@ class GenreController extends ContentController{
                         $genres =  $this->genreModel->getGenres();
                         $this->productView->showCategories($sessiON, $genres, 'Genero actualizado', $admin);
                     }else {
-                        $this->productView->showCategoriesLocation();
+                        $this->generalView->showCategoriesLocation();
                     }
                 }else{
-                    $this->productView->showLoginLocation();
+                    $this->generalView->showLoginLocation();
                 }
             }else{
-                $this->productView->showLoginLocation();
+                $this->generalView->showLoginLocation();
             }
         }else {
-            $this->productView->showCategoriesLocation();
+            $this->generalView->showCategoriesLocation();
         }
     }
 }

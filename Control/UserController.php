@@ -1,7 +1,6 @@
 <?php
 require_once('LoginController.php');
 require_once('Model/UserModel.php');
-require_once('View/SingUpView.php');
 require_once('View/UserView.php');
 require_once('View/GeneralView.php');
 require_once('./Helpers/AuthHelper.php');
@@ -18,15 +17,16 @@ class UserController{
         $this->loginController = new LoginController();
         $this->userView = new UserView();
         $this->userModel = new UserModel();
-        $this->viewSingUp = new SingUpView();
         $this->generalView = new GeneralView();
         $this->authHelper = new AuthHelper();
     }
 
     
     function showSignUp(){
-        //no tendria que poder registrarse si esta logueado
-        $this->userView->showSignUp();
+        $sessiON = $this->authHelper->checkLoggedIn();
+        if (!$sessiON) {
+            $this->userView->showSignUp();
+        }
     }
     
     function showUsers(){
@@ -44,23 +44,6 @@ class UserController{
         }
     }
     
-    /*function getUser($params = []){
-        if (empty($params)) {
-            $users = $this->userModel->getUsers();
-            return $this->viewApi->response($users, 200);
-        }else{
-            $idUser = $params[":ID"];
-            $user = $this->userModel->getUserById($idUser);
-            if (!empty($user)) {
-                return $this->viewApi->response($user, 200);
-            }else{
-                return $this->viewApi->response("Hola", 204);
-            }
-        }
-    }*/
-    
-
-
     function addUser(){
         
         $usuario = $_POST['usuario'];
@@ -142,23 +125,4 @@ class UserController{
             $this->generalView->showLoginLocation();
         }
     }
- 
-    
-/*
- NO HAY QUE EDITARLO PERO LO DEJO POR LAS DUDAS
-
-    function updateUser($params = []){
-        $id = $params[':ID'];
-        $user = $this->userModel->getUser($id);
-
-        $license = 'BUSCAR ALGUNA FORMA DE CARGAR';
-
-        if ($user) {
-            $this->userModel->updateLicense($license, $id);
-            $this->viewApi->response("Usuario id=$id actualizado con éxito", 200);
-        }else{
-            $this->viewApi->response("User id=$id not found", 404);
-        }
-
-    }*/
 }

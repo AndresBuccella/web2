@@ -1,7 +1,5 @@
 <?php
 
-require_once('./libs/smarty-3.1.39/libs/Smarty.class.php');
-
 class GeneralView{
 
 
@@ -15,6 +13,20 @@ class GeneralView{
         header("Location: ". BASE_URL. "loginUser");
     }
 
+    function showCatalogueLocation(){
+        header("Location: ". BASE_URL. "catalogue");
+    }
 
+    function showHomeLocation(){
+        header("Location: ". BASE_URL. "home");
+    }
+
+    function showSpecifiedProduct($id){
+        header("Location: ". BASE_URL. "juegoEspecifico/".$id);
+    }
+
+    function showCategoriesLocation(){
+        header("Location: ". BASE_URL. "categorias");
+    }
 
 }

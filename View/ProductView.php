@@ -21,7 +21,6 @@ class ProductView{
     }
 
     function showProducts($sessiON, $products, $genres, $admin = false){
-        //EN LA VARIABLE PRODUCTOS, ASIGNA $PRODUCTOS
         $this->smarty->assign('sessiON', $sessiON);
         $this->smarty->assign('admin', $admin);
         $this->smarty->assign('productos', $products);
@@ -55,27 +54,4 @@ class ProductView{
         $this->smarty->display('./templates/categorias.tpl');
     }
 
-    function showCatalogueLocation(){
-        
-        //REDIRECCIONA LA PAGINA UNA VEZ QUE LO CREA
-
-        header("Location: ". BASE_URL. "catalogue");
-    }
-
-    function showHomeLocation(){
-        header("Location: ". BASE_URL. "home");
-    }
-
-    function showSpecifiedProduct($id){
-        header("Location: ". BASE_URL. "juegoEspecifico/".$id);
-    }
-
-    function showCategoriesLocation(){
-        header("Location: ". BASE_URL. "categorias");
-
-    }
-
-    function showLoginLocation(){
-        header("Location: ". BASE_URL. "loginUser");
-    }
 }

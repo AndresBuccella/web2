@@ -5,7 +5,6 @@ require_once('Control/ProductController.php');
 require_once('Control/GenreController.php');
 require_once('Control/LoginController.php');
 require_once('Control/UserController.php');
-//require_once('Control/SingUpController.php');
 
 define('BASE_URL', '//'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']).'/');
 
@@ -64,9 +63,6 @@ switch ($params[0]){
     case 'juegoEspecifico':
         $productController->showProduct($params[1]);
         break;
-    case 'editarProducto':
-        $productController->editProduct($params[1]);
-        break;
     case 'categorias':
         if (empty($params[1])) {
             $genreController->showCategories();
@@ -74,7 +70,6 @@ switch ($params[0]){
             $productController->showProductByGenre($params[1]);
         }
         break;
-
     case 'catalogue':
         $contentController->showCatalogue();
         break;
@@ -84,6 +79,11 @@ switch ($params[0]){
     case 'borrarProducto':
         $productController->deleteProduct($params[1]);
         break;
+    case 'editarProducto':
+        $productController->editProduct($params[1]);
+        break;
+
+    //GENERO
     case 'crearGenero':
         $genreController->createGenre();
         break;

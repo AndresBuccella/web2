@@ -30,9 +30,7 @@ class UserModel{
 
     function addUser($user, $email, $password){
         $sentency = $this->db->prepare("INSERT INTO usuarios(usuario, mail, clave, rol) VALUES(?,?,?,?)");
-        $sentency->execute(array($user, $email, $password, 1)); 
-        //return $this->db->lastInsertId(); no me acuerdo para qué devolvía el id
-        //SE PUEDE?? Así no hay forma de que se registre un admin
+        $sentency->execute(array($user, $email, $password, 1)); // con el 1 no se pueden registrar administradores
     }
 
     function deleteUser($id){
